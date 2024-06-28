@@ -15,7 +15,12 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MediumTopAppBar
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -59,7 +64,7 @@ fun LoadingDataError(
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxSize(1f)
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -97,6 +102,7 @@ fun LoadingMore() {
         modifier = Modifier
             .fillMaxWidth()
             .height(45.dp)
+            .padding(bottom = 15.dp)
     ) {
         CircularProgressIndicator(
             modifier = Modifier.size(25.dp),
@@ -118,6 +124,7 @@ fun LoadingMoreError(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
+            .padding(vertical = 15.dp)
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -210,8 +217,42 @@ fun ItemArtwork(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ArtworksToolbar(
+    title: String,
+    scrollBehavior: TopAppBarScrollBehavior
+) {
+    MediumTopAppBar(
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = Color.White,
+            scrolledContainerColor = Color.White,
+            titleContentColor = Color.Black
+        ),
+        title = {
+            Text(
+                text = title,
+                style = TextStyle(
+                    fontSize = 22.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            )
+        },
+        navigationIcon = {
+            Icon(
+                painter = painterResource(id = R.drawable.app_logo),
+                contentDescription = "App Logo",
+                modifier = Modifier
+                    .padding(start = 10.dp)
+                    .size(45.dp)
+            )
+        },
+        scrollBehavior = scrollBehavior
+    )
+}
+
 @Composable
 @Preview
-fun LoadingMorePreview() {
+fun ComposablePreviews() {
     LoadingData()
 }
