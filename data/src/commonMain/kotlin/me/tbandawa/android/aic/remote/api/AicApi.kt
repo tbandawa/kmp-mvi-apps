@@ -35,8 +35,8 @@ class AicApi {
     private val httpClient = HttpClient {
         expectSuccess = true
         install(HttpTimeout) {
-            requestTimeoutMillis = 15000L
-            connectTimeoutMillis = 15000L
+            requestTimeoutMillis = 5000L
+            connectTimeoutMillis = 5000L
         }
         install(Logging) {
             logger = Logger.DEFAULT
@@ -44,7 +44,6 @@ class AicApi {
         }
         install(ContentNegotiation) {
             json(Json {
-                explicitNulls = false
                 isLenient = true
                 encodeDefaults = true
                 ignoreUnknownKeys = true
@@ -76,15 +75,14 @@ suspend fun <T> handleApiCall(
         val response = apiCall()
         ArtworksState.Success(response)
     } catch (e: ResponseException) {
-        ArtworksState.Error(e.response.body<ErrorResponse>())
+        ArtworksState.Error(ErrorResponse(e.response.status.value, e.response.status.description, "Invalid server response"))
     } catch (e: ClientRequestException) {
-        ArtworksState.Error(ErrorResponse(e.response.status.value, e.response.status.description, e.message))
+        ArtworksState.Error(ErrorResponse(e.response.status.value, e.response.status.description, "Server could not process your request"))
     } catch (e: ServerResponseException) {
-        ArtworksState.Error(ErrorResponse(e.response.status.value, e.response.status.description, e.message))
+        ArtworksState.Error(ErrorResponse(e.response.status.value, e.response.status.description, "Invalid operation. Unable to complete task"))
     } catch (e: IOException) {
-        ArtworksState.Error(ErrorResponse(500, "Connection Error", e.message.toString()))
+        ArtworksState.Error(ErrorResponse(500, "Connection Error", "Server unreachable. Please check your internet connection and try again"))
     } catch (e: Exception) {
-        e.printStackTrace()
-        ArtworksState.Error(ErrorResponse(500, "Error Occurred", e.message.toString()))
+        ArtworksState.Error(ErrorResponse(500, "Error Occurred", "Unexpected error occured. Try again"))
     }
 }

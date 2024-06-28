@@ -4,15 +4,18 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -22,6 +25,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -49,7 +53,10 @@ class MainActivity : ComponentActivity() {
                     val artworksViewModel: ArtworksViewModel = koinViewModel()
                     val pagingItems: LazyPagingItems<Artwork> = artworksViewModel.pagedArtworks.collectAsLazyPagingItems()
 
-                    LazyColumn() {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize()
+                    ) {
                         item {
                             Spacer(
                                 modifier = Modifier
@@ -68,10 +75,20 @@ class MainActivity : ComponentActivity() {
                         }
                         pagingItems.apply {
                             when {
-                                loadState.refresh is LoadState.Loading -> {}
-                                loadState.refresh is LoadState.Error -> {}
-                                loadState.append is LoadState.Loading -> {}
-                                loadState.append is LoadState.Error -> {}
+                                loadState.refresh is LoadState.Loading -> {
+                                    item { LoadingData() }
+                                }
+                                loadState.refresh is LoadState.Error -> {
+                                    val error = pagingItems.loadState.refresh as LoadState.Error
+                                    item { LoadingDataError(message = error.error.message!!) { retry() } }
+                                }
+                                loadState.append is LoadState.Loading -> {
+                                    item { LoadingMore() }
+                                }
+                                loadState.append is LoadState.Error -> {
+                                    val error = pagingItems.loadState.append as LoadState.Error
+                                    item { LoadingMoreError(message = error.error.message!!) { retry() } }
+                                }
                             }
                         }
                     }
