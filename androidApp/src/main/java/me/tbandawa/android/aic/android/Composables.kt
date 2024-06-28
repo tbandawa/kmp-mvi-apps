@@ -1,12 +1,10 @@
 package me.tbandawa.android.aic.android
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -28,6 +26,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -165,12 +164,13 @@ fun ItemArtwork(
         AsyncImage(
             model = "https://www.artic.edu/iiif/2/" + artwork.imageId + "/full/843,/0/default.jpg",
             placeholder = painterResource(R.drawable.img_placeholder),
+            error = painterResource(R.drawable.img_placeholder),
             contentDescription = "Image",
             contentScale = ContentScale.Crop,
             modifier = Modifier
-                .height(110.dp)
-                .width(75.dp)
-                .clip(RoundedCornerShape(10.dp))
+                .height(85.dp)
+                .width(60.dp)
+                .clip(RoundedCornerShape(4.dp))
         )
         Column(
             modifier = Modifier
@@ -179,6 +179,8 @@ fun ItemArtwork(
         ) {
             Text(
                 text = artwork.title!!,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
                 style = TextStyle(
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Medium
@@ -188,6 +190,8 @@ fun ItemArtwork(
                 Spacer(modifier = Modifier.height(6.dp))
                 Text(
                     text = it,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
                     style = TextStyle(
                         fontSize = 12.sp,
                     )
@@ -198,7 +202,7 @@ fun ItemArtwork(
                 Text(
                     text = it,
                     style = TextStyle(
-                        fontSize = 10.sp,
+                        fontSize = 10.sp
                     )
                 )
             }
@@ -209,5 +213,5 @@ fun ItemArtwork(
 @Composable
 @Preview
 fun LoadingMorePreview() {
-    LoadingDataError("Error message"){}
+    LoadingData()
 }
