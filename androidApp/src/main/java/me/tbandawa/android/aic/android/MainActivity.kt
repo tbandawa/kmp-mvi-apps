@@ -45,9 +45,9 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             MyApplicationTheme {
+
                 Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    modifier = Modifier.fillMaxSize()
                 ) {
 
                     val artworksViewModel: ArtworksViewModel = koinViewModel()
@@ -55,7 +55,6 @@ class MainActivity : ComponentActivity() {
 
                     LazyColumn(
                         modifier = Modifier
-                            .fillMaxSize()
                     ) {
                         item {
                             Spacer(
@@ -70,7 +69,9 @@ class MainActivity : ComponentActivity() {
                                     .wrapContentSize()
                                     .fillParentMaxWidth()
                             ) {
-                                Text(text = pagingItems[index]?.title!!)
+                                ItemArtwork(artwork = pagingItems[index]!!) { artwordId ->
+
+                                }
                             }
                         }
                         pagingItems.apply {
@@ -92,7 +93,6 @@ class MainActivity : ComponentActivity() {
                             }
                         }
                     }
-
                 }
             }
         }
