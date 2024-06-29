@@ -17,9 +17,9 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import me.tbandawa.android.aic.lifecycle.ArtworksIntent
 import me.tbandawa.android.aic.lifecycle.ArtworksViewModel
 import me.tbandawa.android.aic.remote.responses.Artwork
-import timber.log.Timber
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -49,7 +49,7 @@ fun ArtworksView(
             ) {
                 items(pagingItems.itemCount) { index ->
                     ItemArtwork(artwork = pagingItems[index]!!) { artworkId ->
-                        Timber.d("artwork id = $artworkId")
+                        viewModel.handleIntent(ArtworksIntent.GetArtwork(id = artworkId))
                     }
                 }
                 pagingItems.apply {
