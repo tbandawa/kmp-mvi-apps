@@ -7,7 +7,7 @@ import me.tbandawa.android.aic.repo.AicRepository
 
 class ArtworksViewModel(
     private val repository: AicRepository
-): BaseViewModel<ArtworksState<Any>, ArtworksAction, ArtworksEffect>() {
+): BaseViewModel<ArtworksState<Any>, ArtworksIntent, ArtworksEffect>() {
 
     override fun createInitialState(): ArtworksState<Any> = ArtworksState.Idle
 
@@ -15,23 +15,19 @@ class ArtworksViewModel(
         .getArtWorks()
         .cachedIn(viewModelScope)
 
-    init {
-        handleAction(ArtworksAction.GetArtworks)
-    }
-
-    override fun handleAction(action: ArtworksAction) {
-        when (action) {
-            is ArtworksAction.GetArtworks -> {
+    override fun handleIntent(intent: ArtworksIntent) {
+        when (intent) {
+            is ArtworksIntent.GetArtworks -> {
                 repository.getArtWorks()
             }
-            is ArtworksAction.GetArtwork -> {
+            is ArtworksIntent.GetArtwork -> {
                 viewModelScope.launch {
-                    getArtWork(id = action.id)
+                    getArtWork(id = intent.id)
                 }
             }
-            is ArtworksAction.Refresh -> {}
-            is ArtworksAction.Retry -> {}
-            is ArtworksAction.Error -> {}
+            is ArtworksIntent.Refresh -> {}
+            is ArtworksIntent.Retry -> {}
+            is ArtworksIntent.Error -> {}
         }
     }
 

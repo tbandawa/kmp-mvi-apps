@@ -22,7 +22,7 @@ class AicRepositoryImpl(
         return Pager(
             config = PagingConfig(pageSize = 10, prefetchDistance = 2),
             pagingSourceFactory = { ArtworkPagingSource(api) }
-        ).flow
+        ).flow.flowOn(coroutineDispatcher)
     }
 
     override suspend fun getArtwork(id: Int): Flow<ArtworksState<ArtworkResponse>> = flow {

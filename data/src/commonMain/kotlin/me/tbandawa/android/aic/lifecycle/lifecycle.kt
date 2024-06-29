@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import me.tbandawa.android.aic.remote.responses.ErrorResponse
 
 interface State
-interface Action
+interface Intent
 interface Effect
 
 sealed class ArtworksState<out M>: State {
@@ -18,19 +18,19 @@ sealed class ArtworksState<out M>: State {
     data object Idle: ArtworksState<Nothing>()
 }
 
-sealed class ArtworksAction : Action {
-    data object GetArtworks : ArtworksAction()
-    data class GetArtwork(val id: Int): ArtworksAction()
-    data object Refresh: ArtworksAction()
-    data object Retry: ArtworksAction()
-    data class Error(val message: String): ArtworksAction()
+sealed class ArtworksIntent : Intent {
+    data object GetArtworks : ArtworksIntent()
+    data class GetArtwork(val id: Int): ArtworksIntent()
+    data object Refresh: ArtworksIntent()
+    data object Retry: ArtworksIntent()
+    data class Error(val message: String): ArtworksIntent()
 }
 
 sealed class ArtworksEffect : Effect {
     data class Error(val error: String): ArtworksEffect()
 }
 
-abstract class BaseViewModel<S: State, A: Action, E: Effect>: ViewModel() {
+abstract class BaseViewModel<S: State, I: Intent, E: Effect>: ViewModel() {
 
     private val _effect : MutableSharedFlow<E> = MutableSharedFlow()
     val effect = _effect.asSharedFlow()
@@ -42,5 +42,5 @@ abstract class BaseViewModel<S: State, A: Action, E: Effect>: ViewModel() {
 
     abstract fun createInitialState() : S
 
-    abstract fun handleAction(action: A)
+    abstract fun handleIntent(intent: I)
 }
