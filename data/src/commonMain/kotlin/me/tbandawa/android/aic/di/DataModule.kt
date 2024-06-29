@@ -3,8 +3,8 @@ package me.tbandawa.android.aic.di
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import me.tbandawa.android.aic.remote.api.AicApi
-import me.tbandawa.android.aic.repo.AicRepository
-import me.tbandawa.android.aic.repo.AicRepositoryImpl
+import me.tbandawa.android.aic.remote.repo.AicRepository
+import me.tbandawa.android.aic.remote.repo.AicRepositoryImpl
 import me.tbandawa.android.aic.lifecycle.ArtworksViewModel
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject

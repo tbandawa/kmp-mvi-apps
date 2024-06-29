@@ -3,7 +3,7 @@
 
     <style name="Theme.Splash" parent="Theme.SplashScreen">
         <item name="android:windowSplashScreenBackground">@color/white</item>
-        <item name="android:windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_foreground</item>
         <item name="postSplashScreenTheme">@style/Theme.Aic</item>
 
         <!-- Status bar and Nav bar configs -->

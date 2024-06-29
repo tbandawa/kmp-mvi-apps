@@ -1,10 +1,9 @@
-package me.tbandawa.android.aic.repo
+package me.tbandawa.android.aic.remote.repo
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import me.tbandawa.android.aic.lifecycle.ArtworksState
 import me.tbandawa.android.aic.remote.api.AicApi
-import me.tbandawa.android.aic.remote.api.handleApiCall
 import me.tbandawa.android.aic.remote.responses.Artwork
 
 class ArtworkPagingSource(

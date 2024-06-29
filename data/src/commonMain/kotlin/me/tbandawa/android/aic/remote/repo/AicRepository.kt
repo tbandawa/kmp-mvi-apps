@@ -1,4 +1,4 @@
-package me.tbandawa.android.aic.repo
+package me.tbandawa.android.aic.remote.repo
 
 import app.cash.paging.PagingData
 import kotlinx.coroutines.flow.Flow

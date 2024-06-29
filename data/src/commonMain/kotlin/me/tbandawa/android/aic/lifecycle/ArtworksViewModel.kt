@@ -3,7 +3,7 @@ package me.tbandawa.android.aic.lifecycle
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import kotlinx.coroutines.launch
-import me.tbandawa.android.aic.repo.AicRepository
+import me.tbandawa.android.aic.remote.repo.AicRepository
 
 class ArtworksViewModel(
     private val repository: AicRepository

@@ -1,5 +1,6 @@
 package me.tbandawa.android.aic.android
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -17,7 +18,6 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MediumTopAppBar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -243,9 +243,10 @@ fun ArtworksToolbar(
             )
         },
         navigationIcon = {
-            Icon(
-                painter = painterResource(id = R.drawable.app_logo),
-                contentDescription = "App Logo",
+            Image(
+                painterResource(R.drawable.app_logo),
+                contentDescription = "Art Institute of Chicago",
+                contentScale = ContentScale.Fit,
                 modifier = Modifier
                     .padding(start = 10.dp)
                     .size(45.dp)
