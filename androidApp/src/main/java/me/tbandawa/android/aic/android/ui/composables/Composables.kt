@@ -1,4 +1,4 @@
-package me.tbandawa.android.aic.android
+package me.tbandawa.android.aic.android.ui.composables
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -18,8 +18,11 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MediumTopAppBar
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
@@ -37,6 +40,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import me.tbandawa.android.aic.android.R
 import me.tbandawa.android.aic.remote.responses.Artwork
 
 @Composable
@@ -251,6 +255,36 @@ fun ArtworksToolbar(
                     .padding(start = 10.dp)
                     .size(45.dp)
             )
+        },
+        scrollBehavior = scrollBehavior
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ArtworkToolbar(
+    navigateBack: () -> Unit,
+    scrollBehavior: TopAppBarScrollBehavior
+) {
+    TopAppBar(
+        modifier= Modifier
+            .background(color = Color.White)
+            .fillMaxWidth(),
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = Color.White,
+            scrolledContainerColor = Color.White,
+            titleContentColor = Color.Black
+            ),
+        title = { },
+        navigationIcon = {
+            IconButton(onClick = { navigateBack() }) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_back),
+                    contentDescription = "Back",
+                    modifier = Modifier
+                        .size(25.dp)
+                )
+            }
         },
         scrollBehavior = scrollBehavior
     )

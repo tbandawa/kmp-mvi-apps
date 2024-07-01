@@ -1,11 +1,11 @@
-package me.tbandawa.android.aic.android
+package me.tbandawa.android.aic.android.ui.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import me.tbandawa.android.aic.lifecycle.ArtworksViewModel
-import org.koin.androidx.compose.koinViewModel
+import me.tbandawa.android.aic.android.MyApplicationTheme
+import me.tbandawa.android.aic.android.ui.navigation.NavGraph
 
 class MainActivity : ComponentActivity() {
 
@@ -14,8 +14,7 @@ class MainActivity : ComponentActivity() {
         installSplashScreen()
         setContent {
             MyApplicationTheme {
-                val artworksViewModel: ArtworksViewModel = koinViewModel()
-                ArtworksView(viewModel = artworksViewModel)
+                NavGraph()
             }
         }
     }
