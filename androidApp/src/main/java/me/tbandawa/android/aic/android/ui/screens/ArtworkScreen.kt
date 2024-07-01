@@ -18,6 +18,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.unit.dp
+import me.tbandawa.android.aic.android.ui.composables.ArtworkHeader
 import me.tbandawa.android.aic.android.ui.composables.ArtworkToolbar
 import me.tbandawa.android.aic.android.ui.composables.LoadingData
 import me.tbandawa.android.aic.android.ui.composables.LoadingDataError
@@ -61,6 +63,7 @@ fun ArtworkScreen(
                 verticalArrangement = Arrangement.Center,
                 modifier = Modifier
                     .padding(it)
+                    .padding(horizontal = 16.dp)
                     .fillMaxSize()
                     .verticalScroll(rememberScrollState())
             ) {
@@ -71,7 +74,13 @@ fun ArtworkScreen(
                     }
                     is ArtworksState.Success -> {
                         val artwork = (artworkState.value as ArtworksState.Success<ArtworkResponse>).data
-                        Text(text = "Success => ${artwork.data.title}")
+                        ArtworkHeader(
+                            image = artwork.data.imageId!!,
+                            title = artwork.data.title!!,
+                            dateDisplay = artwork.data.dateDisplay,
+                            artistDisplay = artwork.data.artistDisplay,
+                            description = artwork.data.description
+                        )
                     }
                     is ArtworksState.Error -> {
                         val error = (artworkState.value as ArtworksState.Error<Any>).data as ErrorResponse
