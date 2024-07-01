@@ -1,5 +1,6 @@
 package me.tbandawa.android.aic.android.ui.screens
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -18,6 +19,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import me.tbandawa.android.aic.android.ui.composables.ArtworkToolbar
+import me.tbandawa.android.aic.android.ui.composables.LoadingData
+import me.tbandawa.android.aic.android.ui.composables.LoadingDataError
 import me.tbandawa.android.aic.lifecycle.ArtworksIntent
 import me.tbandawa.android.aic.lifecycle.ArtworksState
 import me.tbandawa.android.aic.lifecycle.ArtworksViewModel
@@ -55,17 +58,16 @@ fun ArtworkScreen(
             },
         ) {
             Column(
+                verticalArrangement = Arrangement.Center,
                 modifier = Modifier
                     .padding(it)
                     .fillMaxSize()
                     .verticalScroll(rememberScrollState())
             ) {
                 when (artworkState.value) {
-                    is ArtworksState.Idle -> {
-                        Text(text = "Idle State")
-                    }
+                    is ArtworksState.Idle -> {}
                     is ArtworksState.Loading -> {
-                        Text(text = "Loading State")
+                        LoadingData()
                     }
                     is ArtworksState.Success -> {
                         val artwork = (artworkState.value as ArtworksState.Success<ArtworkResponse>).data
@@ -73,7 +75,9 @@ fun ArtworkScreen(
                     }
                     is ArtworksState.Error -> {
                         val error = (artworkState.value as ArtworksState.Error<Any>).data as ErrorResponse
-                        Text(text = "Error => ${error.detail}")
+                        LoadingDataError(message = error.detail) {
+                            viewModel.handleIntent(ArtworksIntent.GetArtwork(id = artworkId))
+                        }
                     }
                 }
             }
