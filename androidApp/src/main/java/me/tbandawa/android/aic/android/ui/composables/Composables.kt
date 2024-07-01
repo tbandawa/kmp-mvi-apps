@@ -174,7 +174,7 @@ fun ItemArtwork(
             .padding(10.dp)
     ) {
         AsyncImage(
-            model = "https://www.artic.edu/iiif/2/" + artwork.imageId + "/full/843,/0/default.jpg",
+            model = "https://www.artic.edu/iiif/2/" + artwork.imageId + "/full/200,/0/default.jpg",
             placeholder = painterResource(R.drawable.img_placeholder),
             error = painterResource(R.drawable.img_placeholder),
             contentDescription = "Image",
