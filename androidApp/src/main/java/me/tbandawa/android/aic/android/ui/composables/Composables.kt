@@ -5,6 +5,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -377,6 +378,7 @@ fun ArtworkInfo(
     title: String,
     info: String
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
     var isExpanded by remember { mutableStateOf(false) }
     val animatedAlpha by animateFloatAsState(
         targetValue = if (isExpanded) 1.0f else 0f,
@@ -385,14 +387,17 @@ fun ArtworkInfo(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 5.dp)
-            .clickable {
+            .clickable(
+                interactionSource = interactionSource,
+                indication = null
+            ) {
                 isExpanded = !isExpanded
             }
     ) {
         Spacer(
             modifier = Modifier
-                .height(1.dp)
+                .background(Color.LightGray)
+                .height(0.5.dp)
                 .fillMaxWidth()
         )
         Row(
@@ -405,7 +410,7 @@ fun ArtworkInfo(
                 text = title,
                 style = TextStyle(
                     color = Color.Black,
-                    fontSize = 16.sp,
+                    fontSize = 12.sp,
                     fontWeight = FontWeight.Medium
                 )
             )
@@ -414,14 +419,14 @@ fun ArtworkInfo(
                 painter = painterResource(id = if (isExpanded) R.drawable.ic_collapse else R.drawable.ic_expand ),
                 contentDescription = "Back",
                 modifier = Modifier
-                    .size(25.dp)
+                    .size(15.dp)
             )
         }
         AnimatedVisibility(isExpanded) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 10.dp)
+                    .padding(bottom = 15.dp)
                     .graphicsLayer {
                         alpha = animatedAlpha
                     }
@@ -430,7 +435,7 @@ fun ArtworkInfo(
                     htmlText = info,
                     style = TextStyle(
                         color = Color.LightGray,
-                        fontSize = 14.sp,
+                        fontSize = 12.sp,
                         fontWeight = FontWeight.Normal
                     )
                 )
