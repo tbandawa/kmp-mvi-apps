@@ -323,12 +323,11 @@ fun ArtworkHeader(
             contentDescription = "Image",
             contentScale = ContentScale.Fit,
             modifier = Modifier
-                .height(300.dp)
+                .wrapContentHeight()
                 .wrapContentWidth()
                 .clip(RoundedCornerShape(2.dp))
                 .align(alignment = Alignment.CenterHorizontally)
         )
-
         Spacer(modifier = Modifier.height(15.dp))
         Text(
             text = title,
@@ -337,7 +336,6 @@ fun ArtworkHeader(
                 fontWeight = FontWeight.Medium
             )
         )
-
         dateDisplay?.let {
             Spacer(modifier = Modifier.height(10.dp))
             Text(
@@ -349,7 +347,6 @@ fun ArtworkHeader(
                 )
             )
         }
-
         artistDisplay?.let {
             Spacer(modifier = Modifier.height(10.dp))
             Text(
@@ -361,7 +358,6 @@ fun ArtworkHeader(
                 )
             )
         }
-
         description?.let {
             Spacer(modifier = Modifier.height(10.dp))
             HtmlStyledText(
@@ -373,8 +369,6 @@ fun ArtworkHeader(
                 )
             )
         }
-
-        Spacer(modifier = Modifier.height(20.dp))
     }
 }
 

@@ -1,6 +1,5 @@
 package me.tbandawa.android.aic.android.ui.screens
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -9,7 +8,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
@@ -20,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
 import me.tbandawa.android.aic.android.ui.composables.ArtworkHeader
+import me.tbandawa.android.aic.android.ui.composables.ArtworkInfo
 import me.tbandawa.android.aic.android.ui.composables.ArtworkToolbar
 import me.tbandawa.android.aic.android.ui.composables.LoadingData
 import me.tbandawa.android.aic.android.ui.composables.LoadingDataError
@@ -44,7 +43,8 @@ fun ArtworkScreen(
     }
 
     Surface(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
     ) {
 
         val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
@@ -58,21 +58,20 @@ fun ArtworkScreen(
             topBar = {
                 ArtworkToolbar(navigateBack = navigateBack, scrollBehavior = scrollBehavior)
             },
-        ) {
-            Column(
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier
-                    .padding(it)
-                    .padding(horizontal = 16.dp)
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
-            ) {
-                when (artworkState.value) {
-                    is ArtworksState.Idle -> {}
-                    is ArtworksState.Loading -> {
-                        LoadingData()
-                    }
-                    is ArtworksState.Success -> {
+        ) { paddingValues ->
+            when (artworkState.value) {
+                is ArtworksState.Idle -> {}
+                is ArtworksState.Loading -> {
+                    LoadingData()
+                }
+                is ArtworksState.Success -> {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(paddingValues)
+                            .padding(horizontal = 16.dp)
+                            .verticalScroll(rememberScrollState())
+                    ) {
                         val artwork = (artworkState.value as ArtworksState.Success<ArtworkResponse>).data
                         ArtworkHeader(
                             image = artwork.data.imageId!!,
@@ -81,12 +80,24 @@ fun ArtworkScreen(
                             artistDisplay = artwork.data.artistDisplay,
                             description = artwork.data.description
                         )
-                    }
-                    is ArtworksState.Error -> {
-                        val error = (artworkState.value as ArtworksState.Error<Any>).data as ErrorResponse
-                        LoadingDataError(message = error.detail) {
-                            viewModel.handleIntent(ArtworksIntent.GetArtwork(id = artworkId))
+                        artwork.data.publicationHistory?.let {
+                            ArtworkInfo(title = "PUBLICATION HISTORY", info = it)
                         }
+                        artwork.data.exhibitionHistory?.let {
+                            ArtworkInfo(title = "EXHIBITION HISTORY", info = it)
+                        }
+                        artwork.data.provenanceText?.let {
+                            ArtworkInfo(title = "PROVENANCE", info = it)
+                        }
+                        artwork.data.catalogueDisplay?.let {
+                            ArtworkInfo(title = "CATALOGUE RAISONNÉS", info = it)
+                        }
+                    }
+                }
+                is ArtworksState.Error -> {
+                    val error = (artworkState.value as ArtworksState.Error<Any>).data as ErrorResponse
+                    LoadingDataError(message = error.detail) {
+                        viewModel.handleIntent(ArtworksIntent.GetArtwork(id = artworkId))
                     }
                 }
             }
