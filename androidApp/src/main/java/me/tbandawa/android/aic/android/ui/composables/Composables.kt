@@ -1,5 +1,9 @@
 package me.tbandawa.android.aic.android.ui.composables
 
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
@@ -41,17 +45,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.ParagraphStyle
-import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.text.HtmlCompat
 import coil.compose.AsyncImage
 import me.tbandawa.android.aic.android.R
 import me.tbandawa.android.aic.remote.responses.Artwork
@@ -324,8 +326,8 @@ fun ArtworkHeader(
             contentDescription = "Image",
             contentScale = ContentScale.Fit,
             modifier = Modifier
+                .fillMaxWidth()
                 .wrapContentHeight()
-                .wrapContentWidth()
                 .clip(RoundedCornerShape(2.dp))
                 .align(alignment = Alignment.CenterHorizontally)
         )
@@ -360,15 +362,17 @@ fun ArtworkHeader(
             )
         }
         description?.let {
+            val spannedText = HtmlCompat.fromHtml(it, 0)
             Spacer(modifier = Modifier.height(10.dp))
-            HtmlStyledText(
-                htmlText = it,
-                style = TextStyle(
-                    color = Color.LightGray,
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Normal
-                )
-            )
+            AndroidView(factory = { ctx ->
+                TextView(ctx).apply {
+                    layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
+                    setTextColor(Color.LightGray.hashCode())
+                    textSize = 14.sp.value
+                }
+            }, update = {
+                it.text = spannedText
+            })
         }
     }
 }
@@ -431,87 +435,60 @@ fun ArtworkInfo(
                         alpha = animatedAlpha
                     }
             ) {
-                HtmlStyledText(
-                    htmlText = info,
-                    style = TextStyle(
-                        color = Color.LightGray,
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.Normal
-                    )
-                )
+                val spannedText = HtmlCompat.fromHtml(info, 0)
+                Spacer(modifier = Modifier.height(10.dp))
+                AndroidView(factory = { ctx ->
+                    TextView(ctx).apply {
+                        layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
+                        setTextColor(Color.LightGray.hashCode())
+                        textSize = 14.sp.value
+                    }
+                }, update = {
+                    it.text = spannedText
+                })
             }
         }
     }
 }
 
 @Composable
-fun HtmlStyledText(htmlText: String, style: TextStyle) {
-    val text = htmlText.replace("\\'", "\'")
-        .removePrefix("<![CDATA[")
-        .removeSuffix("]]>")
-    val annotatedString = buildAnnotatedString {
-        val regex = Regex("<(/?)(b|i|u|h[1-6]|p|br|em)>")
-        var lastIndex = 0
-
-        pushStyle(
-            SpanStyle(
-                fontSize = style.fontSize,
-                fontFamily = style.fontFamily,
-                fontWeight = style.fontWeight,
-                fontStyle = style.fontStyle
-            )
+fun ArtworkDetails(
+    title: String,
+    value: String
+) {
+    Column {
+        Spacer(
+            modifier = Modifier
+                .background(Color.LightGray)
+                .height(0.5.dp)
+                .fillMaxWidth()
         )
-
-        regex.findAll(text).forEach { matchResult ->
-            val index = matchResult.range.first
-
-            val appendingText = text.substring(lastIndex, index)
-            if (appendingText.length != 1 || !appendingText[0].isWhitespace()) {
-                append(text.substring(lastIndex, index))
-            }
-
-            when (val tag = matchResult.value) {
-                "<b>" -> pushStyle(SpanStyle(fontWeight = FontWeight.Bold))
-                "</b>" -> pop()
-                "<i>" -> pushStyle(SpanStyle(fontStyle = FontStyle.Italic))
-                "</i>" -> pop()
-                "<u>" -> pushStyle(SpanStyle(textDecoration = TextDecoration.Underline))
-                "</u>" -> pop()
-                "<em>" -> pushStyle(SpanStyle(fontStyle = FontStyle.Italic))
-                "</em>" -> pop()
-                "<p>" -> {
-                    append("\n")
-                    pushStyle(ParagraphStyle(lineHeight = style.fontSize * 1.5f))
-                }
-
-                "</p>" -> {
-                    pop()
-                    append("\n")
-                }
-
-                "<br>" -> append("\n")
-                in listOf("<h1>", "<h2>", "<h3>", "<h4>", "<h5>", "<h6>") -> {
-                    val fontSize = when (tag) {
-                        "<h1>" -> style.fontSize * 2f
-                        "<h2>" -> style.fontSize * 1.5f
-                        "<h3>" -> style.fontSize * 1.25f
-                        "<h4>" -> style.fontSize * 1.15f
-                        "<h5>" -> style.fontSize * 1.05f
-                        else -> style.fontSize // For <h6>
-                    }
-                    pushStyle(SpanStyle(fontSize = fontSize, fontWeight = FontWeight.Bold))
-                }
-
-                in listOf("</h1>", "</h2>", "</h3>", "</h4>", "</h5>", "</h6>") -> pop()
-            }
-
-            lastIndex = matchResult.range.last + 1
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight()
+                .padding(vertical = 5.dp)
+        ) {
+            Text(
+                text = title,
+                style = TextStyle(
+                    color = Color.Black,
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Medium
+                ),
+                modifier = Modifier
+                    .width(85.dp)
+            )
+            Text(
+                text = value,
+                style = TextStyle(
+                    color = Color.LightGray,
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Medium
+                )
+            )
         }
-
-        append(text.substring(lastIndex, text.length))
     }
-
-    Text(text = annotatedString, style = style)
 }
 
 @Composable
@@ -525,12 +502,21 @@ fun ArtworkInfoPreview() {
 
 @Composable
 @Preview
-fun ComposablePreviews() {
+fun ArtworkHeaderPreviews() {
     ArtworkHeader(
         image = "2d484387-2509-5e8e-2c43-22f9981972eb",
         title = "Circa ‘70 Coffee Service",
         dateDisplay = "designed 1958; introduced 1960",
         artistDisplay = "Designed by Donald Colflesh (American, born 1932)\\nMade by Gorham Manufacturing Company (founded 1831)\\nProvidence, Rhode Island",
         description = "Designed by Donald Colflesh (American, born 1932)\\nMade by Gorham Manufacturing Company (founded 1831)\\nProvidence, Rhode Island"
+    )
+}
+
+@Composable
+@Preview
+fun ArtworkArtworkDetailsPreview() {
+    ArtworkDetails(
+        title = "Artist",
+        value = "Annual Report (Art Institute of Chicago, 2009–10) p. 13. Judith A. Barter, Elizabeth McGoey, et al."
     )
 }

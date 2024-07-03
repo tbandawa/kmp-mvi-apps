@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
+import me.tbandawa.android.aic.android.ui.composables.ArtworkDetails
 import me.tbandawa.android.aic.android.ui.composables.ArtworkHeader
 import me.tbandawa.android.aic.android.ui.composables.ArtworkInfo
 import me.tbandawa.android.aic.android.ui.composables.ArtworkToolbar
@@ -83,6 +84,30 @@ fun ArtworkScreen(
                             description = artwork.data.description
                         )
                         Spacer(modifier = Modifier.height(15.dp))
+                        artwork.data.artistTitle?.let {
+                            ArtworkDetails(title = "Artist", value = it)
+                        }
+                        artwork.data.title?.let {
+                            ArtworkDetails(title = "Title", value = it)
+                        }
+                        artwork.data.placeOfOrigin?.let {
+                            ArtworkDetails(title = "Place", value = it)
+                        }
+                        artwork.data.dateDisplay?.let {
+                            ArtworkDetails(title = "Date", value = it)
+                        }
+                        artwork.data.mediumDisplay?.let {
+                            ArtworkDetails(title = "Medium", value = it)
+                        }
+                        artwork.data.inscriptions?.let {
+                            ArtworkDetails(title = "Inscriptions", value = it)
+                        }
+                        artwork.data.creditLine?.let {
+                            ArtworkDetails(title = "Credit Line", value = it)
+                        }
+                        artwork.data.mainReferenceNumber?.let {
+                            ArtworkDetails(title = "Reference. No.", value = it)
+                        }
                         artwork.data.publicationHistory?.let {
                             ArtworkInfo(title = "PUBLICATION HISTORY", info = it)
                         }
