@@ -32,5 +32,7 @@ fun NavGraph() {
 }
 
 fun NavController.navigateToArtwork(artworkId: Int) {
-    navigate(route = "artwork/$artworkId")
+    if (this.currentDestination?.route !== "artwork/$artworkId") {
+        navigate(route = "artwork/$artworkId")
+    }
 }
