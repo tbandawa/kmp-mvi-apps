@@ -5,9 +5,7 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView {
-            NavigationLink(destination: ArtworkScreen(artworkId: 14598)){
-                Text("Open Artwork 14598")
-            }
+            ArtworksScreen()
         }
 	}
 }

@@ -79,16 +79,13 @@
 		7555FF7D242A565900829871 /* iosApp */ = {
 			isa = PBXGroup;
 			children = (
+				83BBE5BC2C373DBE0094EA88 /* Views */,
 				83BBE5AF2C359B090094EA88 /* Lifecycle */,
-				058557BA273AAA24004C7B11 /* Assets.xcassets */,
 				7555FF82242A565900829871 /* ContentView.swift */,
-				7555FF8C242A565B00829871 /* Info.plist */,
 				2152FB032600AC8F00CF470E /* iOSApp.swift */,
+				058557BA273AAA24004C7B11 /* Assets.xcassets */,
+				7555FF8C242A565B00829871 /* Info.plist */,
 				058557D7273AAEEB004C7B11 /* Preview Content */,
-				83BBE5B22C36AA2D0094EA88 /* ArtworksScreen.swift */,
-				83BBE5B42C36ABBF0094EA88 /* ArtworkScreen.swift */,
-				83BBE5B82C3733260094EA88 /* LoadingContent.swift */,
-				83BBE5BA2C3733660094EA88 /* RetryContent.swift */,
 			);
 			path = iosApp;
 			sourceTree = "<group>";
@@ -100,6 +97,41 @@
 				83BBE5B62C36BE340094EA88 /* ArtworkState.swift */,
 			);
 			path = Lifecycle;
+			sourceTree = "<group>";
+		};
+		83BBE5BC2C373DBE0094EA88 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				83BBE5BF2C373DEA0094EA88 /* Components */,
+				83BBE5BE2C373DD60094EA88 /* Artworks */,
+				83BBE5BD2C373DCC0094EA88 /* Artwork */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		83BBE5BD2C373DCC0094EA88 /* Artwork */ = {
+			isa = PBXGroup;
+			children = (
+				83BBE5B42C36ABBF0094EA88 /* ArtworkScreen.swift */,
+			);
+			path = Artwork;
+			sourceTree = "<group>";
+		};
+		83BBE5BE2C373DD60094EA88 /* Artworks */ = {
+			isa = PBXGroup;
+			children = (
+				83BBE5B22C36AA2D0094EA88 /* ArtworksScreen.swift */,
+			);
+			path = Artworks;
+			sourceTree = "<group>";
+		};
+		83BBE5BF2C373DEA0094EA88 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				83BBE5B82C3733260094EA88 /* LoadingContent.swift */,
+				83BBE5BA2C3733660094EA88 /* RetryContent.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 		9B7DFD9A444A1166131AAD74 /* Pods */ = {
