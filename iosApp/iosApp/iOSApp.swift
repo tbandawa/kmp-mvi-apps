@@ -5,7 +5,7 @@ import data
 struct iOSApp: App {
     
     @StateObject var artworksState = ArtworksState()
-    @StateObject var artworkState = ArtworksState()
+    @StateObject var artworkState = ArtworkState()
     
     init() {
         DataModuleKt.doInitKoin()
@@ -13,7 +13,7 @@ struct iOSApp: App {
     
 	var body: some Scene {
 		WindowGroup {
-			ArtworksScreen()
+            ContentView()
                 .environmentObject(artworksState)
                 .environmentObject(artworkState)
 		}

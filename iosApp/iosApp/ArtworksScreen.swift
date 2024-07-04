@@ -11,8 +11,15 @@ import SwiftUI
 struct ArtworksScreen: View {
     var body: some View {
         NavigationView {
-            NavigationLink(destination: ArtworkScreen(artworkId: 14598)){
-                Text("Open Artwork 14598")
+            VStack {
+                Button(action: {
+                    
+                }) {
+                    Text("Get Artwork 14598")
+                }
+                NavigationLink(destination: ArtworkScreen(artworkId: 14598)){
+                    Text("Open Artwork 14598")
+                }
             }
         }
     }

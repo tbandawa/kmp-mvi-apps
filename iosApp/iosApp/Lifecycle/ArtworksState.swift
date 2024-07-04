@@ -13,16 +13,4 @@ import data
 class ArtworksState: ObservableObject {
     
     private let viewModel: ArtworksViewModel = DataHelper().viewModel
-    
-    @Published var loading = true
-    @Published var error: String?
-    @Published var artwork: Artwork?
-    
-    func handleIntent(artworksIntent: ArtworksIntent) {
-        viewModel.handleIntent(intent: artworksIntent)
-    }
-    
-    init() {
-        
-    }
 }

@@ -11,17 +11,16 @@ import data
 
 struct ArtworkScreen: View {
     
-    var artworkId: Int32
-    
     @EnvironmentObject var artworkState: ArtworkState
+    
+    var artworkId: Int32
     
     var body: some View {
         ZStack {
             
         }
         .onAppear {
-            artworkState.viewModel.handleIntent(intent: ArtworksIntent.GetArtwork(id: artworkId))
+            artworkState.handleIntent(intent: ArtworksIntent.GetArtwork(id: artworkId))
         }
-            
     }
 }
