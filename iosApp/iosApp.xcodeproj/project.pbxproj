@@ -17,6 +17,7 @@
 		83BBE5B72C36BE340094EA88 /* ArtworkState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83BBE5B62C36BE340094EA88 /* ArtworkState.swift */; };
 		83BBE5B92C3733260094EA88 /* LoadingContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83BBE5B82C3733260094EA88 /* LoadingContent.swift */; };
 		83BBE5BB2C3733660094EA88 /* RetryContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83BBE5BA2C3733660094EA88 /* RetryContent.swift */; };
+		83BBE5C12C373EC30094EA88 /* ArtworkContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83BBE5C02C373EC30094EA88 /* ArtworkContent.swift */; };
 		BDE331323AA6FE5CACC0F338 /* Pods_iosApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3997719711CB7C44D2022956 /* Pods_iosApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -36,6 +37,7 @@
 		83BBE5B62C36BE340094EA88 /* ArtworkState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtworkState.swift; sourceTree = "<group>"; };
 		83BBE5B82C3733260094EA88 /* LoadingContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingContent.swift; sourceTree = "<group>"; };
 		83BBE5BA2C3733660094EA88 /* RetryContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetryContent.swift; sourceTree = "<group>"; };
+		83BBE5C02C373EC30094EA88 /* ArtworkContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtworkContent.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,6 +132,7 @@
 			children = (
 				83BBE5B82C3733260094EA88 /* LoadingContent.swift */,
 				83BBE5BA2C3733660094EA88 /* RetryContent.swift */,
+				83BBE5C02C373EC30094EA88 /* ArtworkContent.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -250,6 +253,7 @@
 				83BBE5B32C36AA2D0094EA88 /* ArtworksScreen.swift in Sources */,
 				83BBE5B52C36ABBF0094EA88 /* ArtworkScreen.swift in Sources */,
 				83BBE5B12C359B430094EA88 /* ArtworksState.swift in Sources */,
+				83BBE5C12C373EC30094EA88 /* ArtworkContent.swift in Sources */,
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
 				83BBE5B72C36BE340094EA88 /* ArtworkState.swift in Sources */,
 				83BBE5B92C3733260094EA88 /* LoadingContent.swift in Sources */,

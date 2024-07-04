@@ -18,7 +18,7 @@ struct ArtworkScreen: View {
     var body: some View {
         ZStack {
             if let artwork = artworkState.artwork {
-                
+                ArtworkContent(artwork: artwork)
             }
             if artworkState.loading {
                 LoadingContent()

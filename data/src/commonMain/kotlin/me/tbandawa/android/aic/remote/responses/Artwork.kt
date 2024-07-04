@@ -21,7 +21,7 @@ data class Artwork(
     @SerialName("date_qualifier_id") var dateQualifierId: String?,
     @SerialName("artist_display") var artistDisplay: String?,
     @SerialName("place_of_origin") var placeOfOrigin: String?,
-    @SerialName("description") var description: String?,
+    @SerialName("description") var artDescription: String?,
     @SerialName("short_description") var shortDescription: String?,
     @SerialName("dimensions") var dimensions: String?,
     @SerialName("medium_display") var mediumDisplay: String?,

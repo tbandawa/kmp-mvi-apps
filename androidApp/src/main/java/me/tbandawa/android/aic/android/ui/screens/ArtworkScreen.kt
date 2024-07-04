@@ -81,7 +81,7 @@ fun ArtworkScreen(
                             title = artwork.data.title!!,
                             dateDisplay = artwork.data.dateDisplay,
                             artistDisplay = artwork.data.artistDisplay,
-                            description = artwork.data.description
+                            description = artwork.data.artDescription
                         )
                         Spacer(modifier = Modifier.height(15.dp))
                         artwork.data.artistTitle?.let {
