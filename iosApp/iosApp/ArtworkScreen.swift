@@ -17,7 +17,20 @@ struct ArtworkScreen: View {
     
     var body: some View {
         ZStack {
-            
+            if let artwork = artworkState.artwork {
+                
+            }
+            if artworkState.loading {
+                LoadingContent()
+            }
+            if let errorMessage = artworkState.error {
+                RetryContent(
+                    error: errorMessage,
+                    retry: {
+                        artworkState.handleIntent(intent: ArtworksIntent.GetArtwork(id: artworkId))
+                    }
+                )
+            }
         }
         .onAppear {
             artworkState.handleIntent(intent: ArtworksIntent.GetArtwork(id: artworkId))
