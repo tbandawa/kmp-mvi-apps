@@ -30,11 +30,16 @@ private val repoModule = module {
     single<AicRepository> { AicRepositoryImpl(get(), get(named("IODispatcher"))) }
 }
 
-val viewModelModule = module {
+private val viewModelModule = module {
     single { ArtworksViewModel(get()) }
 }
 
-val modulesList = listOf(dispatchersModule, apiModule, repoModule, viewModelModule)
+val modulesList = listOf(
+    dispatchersModule,
+    apiModule,
+    repoModule,
+    viewModelModule
+)
 
 fun initKoin(appDeclaration: KoinAppDeclaration) = startKoin {
     appDeclaration()
@@ -48,5 +53,5 @@ fun initKoin(){
 }
 
 class DataHelper: KoinComponent {
-    val repo: AicRepository by inject()
+    val viewModel: ArtworksViewModel by inject()
 }

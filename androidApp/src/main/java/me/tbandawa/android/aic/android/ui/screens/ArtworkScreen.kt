@@ -75,7 +75,7 @@ fun ArtworkScreen(
                             .padding(horizontal = 16.dp)
                             .verticalScroll(rememberScrollState())
                     ) {
-                        val artwork = (artworkState.value as ArtworksState.Success<ArtworkResponse>).data
+                        val artwork = (artworkState.value as ArtworksState.Success<*>).data as ArtworkResponse
                         ArtworkHeader(
                             image = artwork.data.imageId!!,
                             title = artwork.data.title!!,

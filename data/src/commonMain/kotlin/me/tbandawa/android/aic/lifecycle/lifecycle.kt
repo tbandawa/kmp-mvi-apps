@@ -43,4 +43,7 @@ abstract class BaseViewModel<S: State, I: Intent, E: Effect>: ViewModel() {
     abstract fun createInitialState() : S
 
     abstract fun handleIntent(intent: I)
+
+    @Suppress("unused")
+    abstract fun observeResource(provideResourceState: (S) -> Unit)
 }

@@ -3,18 +3,22 @@ import data
 
 struct ContentView: View {
     
-    let repo: AicRepository = DataHelper().repo
+    @EnvironmentObject var artworksState: ArtworksState
     
 	var body: some View {
-        
-        
-        
-		Text("greet")
+        ScrollView {
+            LazyVStack {
+                Button("Retry") {
+                    artworksState.viewModel.handleIntent(intent: ArtworksIntent.GetArtwork(id: 229378))
+                }
+            }
+        }
 	}
 }
 
 struct ContentView_Previews: PreviewProvider {
 	static var previews: some View {
 		ContentView()
+            .environmentObject(ArtworksState())
 	}
 }
