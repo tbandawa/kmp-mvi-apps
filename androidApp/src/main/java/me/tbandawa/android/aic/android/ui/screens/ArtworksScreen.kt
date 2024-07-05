@@ -22,7 +22,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
-import app.cash.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import me.tbandawa.android.aic.android.ui.composables.ArtworksToolbar
 import me.tbandawa.android.aic.android.ui.composables.ItemArtwork
 import me.tbandawa.android.aic.android.ui.composables.LoadingData

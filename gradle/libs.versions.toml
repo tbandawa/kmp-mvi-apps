@@ -16,7 +16,7 @@ splash = "1.0.0-beta02"
 dateTime = "0.4.0"
 timber = "4.7.1"
 coil = "2.5.0"
-paging-common = "3.3.0-alpha02-0.4.0"
+paging-common = "3.3.0-beta01"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -31,7 +31,8 @@ androidx-lifecycle-viewmodel = { module = "org.jetbrains.androidx.lifecycle:life
 androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "constraint" }
 androidx-navigation = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
 androidx-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "splash" }
-paging-compose-common = { module = "app.cash.paging:paging-compose-common", version.ref = "paging-common" }
+paging-compose-android = { module = "androidx.paging:paging-compose-android", version.ref = "paging-common" }
+paging-common = { module = "androidx.paging:paging-common", version.ref = "paging-common" }
 kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }

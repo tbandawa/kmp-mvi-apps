@@ -39,7 +39,7 @@ kotlin {
             implementation(libs.ktor.client.logging)
             implementation(libs.kotlin.date.time)
             implementation(libs.gson)
-            implementation(libs.paging.compose.common)
+            implementation(libs.paging.common)
             api(libs.koin.core)
         }
         androidMain.dependencies {
