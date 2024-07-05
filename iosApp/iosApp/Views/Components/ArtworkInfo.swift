@@ -13,13 +13,13 @@ struct ArtworkInfo: View {
     var title: String
     var value: String
     
-    @State private var hide = false
+    @State private var hide = true
     
     var body: some View {
             VStack {
                 Divider()
                     .background(.gray)
-                    .frame(width: .infinity, height: 0.5)
+                    .frame(height: 0.5)
                 HStack {
                     Text(title)
                         .font(.system(size: 16, weight: .bold, design: .rounded))
@@ -27,13 +27,13 @@ struct ArtworkInfo: View {
                         .frame(maxWidth: .infinity, alignment: .topLeading)
                         .padding(.vertical, 2)
                     Spacer()
-                    Text("+")
+                    Text(toggleCollapse(isHide: hide))
                         .font(.system(size: 20, weight: .bold, design: .rounded))
                         .foregroundColor(.black)
                         .frame(maxWidth: .infinity, alignment: .bottomTrailing)
                         .padding(.vertical, 2)
                 }
-                if hide {
+                if !hide {
                     Text(value)
                         .font(.system(size: 16, weight: .regular, design: .rounded))
                         .foregroundColor(.gray)
@@ -47,4 +47,12 @@ struct ArtworkInfo: View {
                 }
             }
         }
+    
+    func toggleCollapse(isHide: Bool) -> String {
+        if isHide {
+            return "+"
+        } else  {
+            return "-"
+        }
+    }
 }
