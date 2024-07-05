@@ -15,7 +15,7 @@ struct ArtworkContent: View {
     
     var body: some View {
         ScrollView {
-            LazyVStack(alignment: .leading) {
+            LazyVStack(alignment: .center) {
                 
                 if let imageId = artwork.imageId {
                     AsyncImage(url: URL(string: "https://www.artic.edu/iiif/2/\(imageId)/full/843,/0/default.jpg")) { image in
@@ -23,7 +23,11 @@ struct ArtworkContent: View {
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                     } placeholder: {
-                        Color.red
+                        Image("img_placeholder")
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: .infinity, height: 300, alignment: .leading)
+                            .clipped()
                     }
                 }
                 
