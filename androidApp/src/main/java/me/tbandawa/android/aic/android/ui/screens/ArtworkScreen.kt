@@ -106,7 +106,7 @@ fun ArtworkScreen(
                             ArtworkDetails(title = "Credit Line", value = it)
                         }
                         artwork.data.mainReferenceNumber?.let {
-                            ArtworkDetails(title = "Reference. No.", value = it)
+                            ArtworkDetails(title = "Reference No.", value = it)
                         }
                         artwork.data.publicationHistory?.let {
                             ArtworkInfo(title = "PUBLICATION HISTORY", info = it)

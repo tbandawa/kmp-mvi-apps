@@ -16,13 +16,15 @@ struct RetryContent: View {
     var body: some View {
         VStack {
             Text(error)
-            Button("Retry") {
-                retry()
-            }
-            .frame(width: 80, height: 35)
-            .foregroundColor(Color.white)
-            .background(Color.black)
-            .cornerRadius(15)
+                .font(.system(size: 16, weight: .regular, design: .rounded))
+                .padding(.horizontal, 10)
+            Text("Retry")
+                .font(.system(size: 16, weight: .regular, design: .rounded))
+                .padding(.top, 2)
+                .underline()
+                .onTapGesture {
+                    retry()
+                }
         }
     }
 }
