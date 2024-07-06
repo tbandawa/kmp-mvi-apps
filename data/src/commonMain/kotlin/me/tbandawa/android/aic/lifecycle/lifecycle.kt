@@ -19,7 +19,7 @@ sealed class ArtworksState<out M>: State {
 }
 
 sealed class ArtworksIntent : Intent {
-    data object GetArtworks : ArtworksIntent()
+    data class GetArtworks(val page: Int): ArtworksIntent()
     data class GetArtwork(val id: Int): ArtworksIntent()
     data object Refresh: ArtworksIntent()
     data object Retry: ArtworksIntent()

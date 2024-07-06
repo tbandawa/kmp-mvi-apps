@@ -12,5 +12,13 @@ import data
 
 class ArtworksState: ObservableObject {
     
-    private let viewModel: ArtworksViewModel = DataHelper().viewModel
+    let viewModel: ArtworksViewModel = DataHelper().viewModel
+    
+    @Published var loading = true
+    @Published var error: String?
+    @Published var items: [Item]? = []
+    
+    init() {
+        
+    }
 }

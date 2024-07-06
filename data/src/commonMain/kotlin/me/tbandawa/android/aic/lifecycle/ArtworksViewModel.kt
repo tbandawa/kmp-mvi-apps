@@ -6,13 +6,12 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import me.tbandawa.android.aic.remote.repo.AicRepository
-import me.tbandawa.android.aic.remote.responses.ArtworkResponse
 
 class ArtworksViewModel(
     private val repository: AicRepository
-): BaseViewModel<ArtworksState<ArtworkResponse>, ArtworksIntent, ArtworksEffect>() {
+): BaseViewModel<ArtworksState<Any>, ArtworksIntent, ArtworksEffect>() {
 
-    override fun createInitialState(): ArtworksState<ArtworkResponse> = ArtworksState.Idle
+    override fun createInitialState(): ArtworksState<Any> = ArtworksState.Idle
 
     val pagedArtworks = repository
         .getArtWorks()
@@ -21,7 +20,9 @@ class ArtworksViewModel(
     override fun handleIntent(intent: ArtworksIntent) {
         when (intent) {
             is ArtworksIntent.GetArtworks -> {
-                repository.getArtWorks()
+                viewModelScope.launch {
+                    getArtWorks(page = intent.page)
+                }
             }
             is ArtworksIntent.GetArtwork -> {
                 viewModelScope.launch {
@@ -40,7 +41,13 @@ class ArtworksViewModel(
         }
     }
 
-    override fun observeResource(provideResourceState: (ArtworksState<ArtworkResponse>) -> Unit) {
+    private suspend fun getArtWorks(page: Int) {
+        repository.getArtworks(page = page).collect { state ->
+            _state.value = state
+        }
+    }
+
+    override fun observeResource(provideResourceState: (ArtworksState<Any>) -> Unit) {
         _state.onEach {
             provideResourceState.invoke(it)
         }.launchIn(viewModelScope)

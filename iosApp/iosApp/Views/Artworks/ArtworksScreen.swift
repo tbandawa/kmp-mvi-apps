@@ -7,14 +7,25 @@
 //
 
 import SwiftUI
+import data
 
 struct ArtworksScreen: View {
+    
+    @EnvironmentObject var artworksState: ArtworksState
+    
+    @Published var loading = true
+    @Published var error: String?
+    @Published var artworks: [Artwork]? = []
+    
     var body: some View {
         NavigationView {
             VStack {
                 NavigationLink(destination: ArtworkScreen(artworkId: 14598)){
                     Text("Open Artwork 14598")
                 }
+            }
+            .onAppear {
+                artworksState.objectWillChange.send()
             }
         }
     }

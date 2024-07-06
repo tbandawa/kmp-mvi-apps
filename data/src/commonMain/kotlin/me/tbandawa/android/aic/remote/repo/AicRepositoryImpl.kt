@@ -15,6 +15,7 @@ import me.tbandawa.android.aic.lifecycle.ArtworksState
 import me.tbandawa.android.aic.remote.api.AicApi
 import me.tbandawa.android.aic.remote.responses.Artwork
 import me.tbandawa.android.aic.remote.responses.ArtworkResponse
+import me.tbandawa.android.aic.remote.responses.ArtworksResponse
 import me.tbandawa.android.aic.remote.responses.ErrorResponse
 
 class AicRepositoryImpl(
@@ -28,6 +29,13 @@ class AicRepositoryImpl(
             pagingSourceFactory = { ArtworkPagingSource(api) }
         ).flow.flowOn(coroutineDispatcher)
     }
+
+    override suspend fun getArtworks(page: Int): Flow<ArtworksState<ArtworksResponse>> = flow {
+        emit(ArtworksState.Loading)
+        emit(handleApiCall {
+            api.getArtworks(page)
+        })
+    }.flowOn(coroutineDispatcher)
 
     override suspend fun getArtwork(id: Int): Flow<ArtworksState<ArtworkResponse>> = flow {
         emit(ArtworksState.Loading)
