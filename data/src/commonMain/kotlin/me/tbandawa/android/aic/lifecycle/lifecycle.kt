@@ -21,8 +21,6 @@ sealed class ArtworksState<out M>: State {
 sealed class ArtworksIntent : Intent {
     data class GetArtworks(val page: Int): ArtworksIntent()
     data class GetArtwork(val id: Int): ArtworksIntent()
-    data object Refresh: ArtworksIntent()
-    data object Retry: ArtworksIntent()
     data class Error(val message: String): ArtworksIntent()
 }
 

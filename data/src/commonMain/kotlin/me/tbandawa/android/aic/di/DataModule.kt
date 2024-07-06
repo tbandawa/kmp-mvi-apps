@@ -2,6 +2,7 @@ package me.tbandawa.android.aic.di
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
+import me.tbandawa.android.aic.lifecycle.ArtworkViewModel
 import me.tbandawa.android.aic.remote.api.AicApi
 import me.tbandawa.android.aic.remote.repo.AicRepository
 import me.tbandawa.android.aic.remote.repo.AicRepositoryImpl
@@ -32,6 +33,7 @@ private val repoModule = module {
 
 private val viewModelModule = module {
     single { ArtworksViewModel(get()) }
+    single { ArtworkViewModel(get()) }
 }
 
 val modulesList = listOf(

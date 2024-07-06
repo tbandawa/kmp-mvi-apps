@@ -19,6 +19,21 @@ class ArtworksState: ObservableObject {
     @Published var items: [Item]? = []
     
     init() {
-        
+        viewModel.handleIntent(intent: ArtworksIntent.GetArtworks(page: 1))
+        viewModel.observeResource { state in
+            
+            switch state {
+                case let success as ArtworksStateSuccess<ArtworksResponse>?:
+                    //print("=============================================== start")
+                    print("")
+                    //print("=============================================== end")
+                
+                case let error as ArtworksStateError<ErrorResponse>?:
+                    print("error => \(error)")
+                
+                default:
+                    break
+            }
+        }
     }
 }

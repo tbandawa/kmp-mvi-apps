@@ -13,10 +13,6 @@ struct ArtworksScreen: View {
     
     @EnvironmentObject var artworksState: ArtworksState
     
-    @Published var loading = true
-    @Published var error: String?
-    @Published var artworks: [Artwork]? = []
-    
     var body: some View {
         NavigationView {
             VStack {

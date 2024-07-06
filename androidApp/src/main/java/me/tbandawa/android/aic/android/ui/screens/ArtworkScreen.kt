@@ -25,9 +25,9 @@ import me.tbandawa.android.aic.android.ui.composables.ArtworkInfo
 import me.tbandawa.android.aic.android.ui.composables.ArtworkToolbar
 import me.tbandawa.android.aic.android.ui.composables.LoadingData
 import me.tbandawa.android.aic.android.ui.composables.LoadingDataError
+import me.tbandawa.android.aic.lifecycle.ArtworkViewModel
 import me.tbandawa.android.aic.lifecycle.ArtworksIntent
 import me.tbandawa.android.aic.lifecycle.ArtworksState
-import me.tbandawa.android.aic.lifecycle.ArtworksViewModel
 import me.tbandawa.android.aic.remote.responses.ArtworkResponse
 import me.tbandawa.android.aic.remote.responses.ErrorResponse
 import org.koin.androidx.compose.inject
@@ -39,7 +39,7 @@ fun ArtworkScreen(
     navigateBack: () -> Unit
 ) {
 
-    val viewModel : ArtworksViewModel by inject()
+    val viewModel : ArtworkViewModel by inject()
 
     LaunchedEffect(true) {
         viewModel.handleIntent(ArtworksIntent.GetArtwork(id = artworkId))

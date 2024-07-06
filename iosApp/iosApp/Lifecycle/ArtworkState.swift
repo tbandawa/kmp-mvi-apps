@@ -29,8 +29,13 @@ class ArtworkState: ObservableObject {
             self.error = nil
             
             switch state {
-                case let success as ArtworksStateSuccess<ArtworkResponse>:
-                    self.artwork = success.data?.data
+                case let success as ArtworksStateSuccess<AnyObject>:
+                    if success is ArtworksStateSuccess<Artwork> {
+                        print("--------------------- start")
+                        print(success.data!)
+                        print("--------------------- end")
+                    }
+                    //self.artwork = success?.data!.data
                     self.loading = false
                     self.error = nil
                 
