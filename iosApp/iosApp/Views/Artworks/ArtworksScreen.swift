@@ -21,6 +21,11 @@ struct ArtworksScreen: View {
                         ItemArtwork(item: item)
                             .listRowSeparator(.hidden)
                             .background(NavigationLink("", destination: ArtworkScreen(artworkId: Int32(item.id))).opacity(0))
+                            .onAppear {
+                                if (items.last == item) {
+                                    
+                                }
+                            }
                     }
                 }
                 if artworksState.loading {
@@ -31,6 +36,19 @@ struct ArtworksScreen: View {
                         error: errorMessage,
                         retry: {}
                     )
+                }
+            }
+            .toolbar {
+                ToolbarItem(placement: .navigation) {
+                    Image("app_logo")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 35, height: 35)
+                }
+                ToolbarItem(placement: .navigation) {
+                    Text("Art Institute of Chicago")
+                        .font(.system(size: 22, weight: .bold, design: .rounded))
+                        .foregroundColor(.black)
                 }
             }
         }
