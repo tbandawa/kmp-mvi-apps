@@ -22,14 +22,18 @@ class ArtworksState: ObservableObject {
         viewModel.handleIntent(intent: ArtworksIntent.GetArtworks(page: 1))
         viewModel.observeResource { state in
             
+            self.loading = true
+            self.error = nil
+            
             switch state {
                 case let success as ArtworksStateSuccess<ArtworksResponse>:
-                    print("Artworks start =============================================")
-                    print(success.data)
-                    print("Artworks end ===============================================")
+                    self.items = self.mapToItems(items: success.data!.data as NSArray as! [Artwork])
+                    self.loading = false
+                    self.error = nil
                 
                 case let error as ArtworksStateError<ErrorResponse>?:
-                    print("error => \(error)")
+                    self.error = error?.data?.detail
+                    self.loading = false
                 
                 default:
                     break

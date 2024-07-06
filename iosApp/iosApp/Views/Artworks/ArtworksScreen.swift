@@ -15,13 +15,23 @@ struct ArtworksScreen: View {
     
     var body: some View {
         NavigationView {
-            VStack {
-                NavigationLink(destination: ArtworkScreen(artworkId: 14598)){
-                    Text("Open Artwork 14598")
+            ZStack {
+                if let items = artworksState.items {
+                    List(items) { item in
+                        ItemArtwork(item: item)
+                            .listRowSeparator(.hidden)
+                            .background(NavigationLink("", destination: ArtworkScreen(artworkId: Int32(item.id))).opacity(0))
+                    }
                 }
-            }
-            .onAppear {
-                artworksState.objectWillChange.send()
+                if artworksState.loading {
+                    LoadingContent()
+                }
+                if let errorMessage = artworksState.error {
+                    RetryContent(
+                        error: errorMessage,
+                        retry: {}
+                    )
+                }
             }
         }
     }
