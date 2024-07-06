@@ -12,7 +12,7 @@ import data
 
 class ArtworksState: ObservableObject {
     
-    let viewModel: ArtworksViewModel = DataHelper().viewModel
+    let viewModel: ArtworksViewModel = DataHelper().artworksViewModel
     
     @Published var loading = true
     @Published var error: String?
@@ -23,10 +23,10 @@ class ArtworksState: ObservableObject {
         viewModel.observeResource { state in
             
             switch state {
-                case let success as ArtworksStateSuccess<ArtworksResponse>?:
-                    //print("=============================================== start")
-                    print("")
-                    //print("=============================================== end")
+                case let success as ArtworksStateSuccess<ArtworksResponse>:
+                    print("Artworks start =============================================")
+                    print(success.data)
+                    print("Artworks end ===============================================")
                 
                 case let error as ArtworksStateError<ErrorResponse>?:
                     print("error => \(error)")

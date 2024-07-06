@@ -55,5 +55,6 @@ fun initKoin(){
 }
 
 class DataHelper: KoinComponent {
-    val viewModel: ArtworksViewModel by inject()
+    val artworksViewModel: ArtworksViewModel by inject()
+    val artworkViewModel: ArtworkViewModel by inject()
 }
