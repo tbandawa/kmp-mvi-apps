@@ -18,8 +18,10 @@ class ArtworksState: ObservableObject {
     @Published var error: String?
     @Published var items: [Item]? = []
     
+    private var currentPage: Int32 = 1
+    
     init() {
-        viewModel.handleIntent(intent: ArtworksIntent.GetArtworks(page: 1))
+        viewModel.handleIntent(intent: ArtworksIntent.GetArtworks(page: currentPage))
         viewModel.observeResource { state in
             
             self.loading = true
@@ -27,7 +29,8 @@ class ArtworksState: ObservableObject {
             
             switch state {
                 case let success as ArtworksStateSuccess<ArtworksResponse>:
-                    self.items = self.mapToItems(items: success.data!.data as NSArray as! [Artwork])
+                    self.currentPage += 1
+                    self.items?.append(contentsOf: self.mapToItems(items: success.data!.data as NSArray as! [Artwork]))
                     self.loading = false
                     self.error = nil
                 
@@ -39,5 +42,9 @@ class ArtworksState: ObservableObject {
                     break
             }
         }
+    }
+    
+    func getArtworks() {
+        viewModel.handleIntent(intent: ArtworksIntent.GetArtworks(page: currentPage))
     }
 }

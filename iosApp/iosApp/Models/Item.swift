@@ -27,8 +27,8 @@ extension ArtworksState {
                     id: artwork.id as! Int,
                     title: artwork.title!,
                     artistDisplay: artwork.artistDisplay!,
-                    departmentTitle: artwork.departmentTitle!,
-                    imageId: artwork.imageId!
+                    departmentTitle: artwork.departmentTitle ?? "",
+                    imageId: artwork.imageId ?? ""
                 )
             }
         )

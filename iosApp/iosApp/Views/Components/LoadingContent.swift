@@ -18,9 +18,3 @@ struct LoadingContent: View {
         }
     }
 }
-
-struct LoadingContent_Previews: PreviewProvider {
-    static var previews: some View {
-        LoadingContent()
-    }
-}

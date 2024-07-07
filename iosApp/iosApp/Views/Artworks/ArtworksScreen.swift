@@ -15,27 +15,43 @@ struct ArtworksScreen: View {
     
     var body: some View {
         NavigationView {
-            ZStack {
-                if let items = artworksState.items {
-                    List(items) { item in
-                        ItemArtwork(item: item)
-                            .listRowSeparator(.hidden)
-                            .background(NavigationLink("", destination: ArtworkScreen(artworkId: Int32(item.id))).opacity(0))
-                            .onAppear {
-                                if (items.last == item) {
-                                    
-                                }
+            VStack {
+                ZStack {
+                    if let items = artworksState.items {
+                        List {
+                            ForEach(artworksState.items!, id: \.id) { item in
+                                ItemArtwork(item: item)
+                                    .listRowSeparator(.hidden)
+                                    .background(NavigationLink("", destination: ArtworkScreen(artworkId: Int32(item.id))).opacity(0))
+                                    .onAppear {
+                                        if (items.last == item) {
+                                            artworksState.getArtworks()
+                                        }
+                                    }
                             }
+                            if ((artworksState.loading && artworksState.items!.count > 0) || (artworksState.error != nil && artworksState.items!.count > 0)) {
+                                LoadingMoreView(
+                                    errorMessage: artworksState.error,
+                                    retry: { artworksState.getArtworks() }
+                                )
+                            }
+                         }
                     }
-                }
-                if artworksState.loading {
-                    LoadingContent()
-                }
-                if let errorMessage = artworksState.error {
-                    RetryContent(
-                        error: errorMessage,
-                        retry: {}
-                    )
+                    if artworksState.loading {
+                        if (artworksState.items?.count == 0) {
+                            LoadingContent()
+                        }
+                    }
+                    if let errorMessage = artworksState.error {
+                        if (artworksState.items?.count == 0) {
+                            RetryContent(
+                                error: errorMessage,
+                                retry: {
+                                    artworksState.getArtworks()
+                                }
+                            )
+                        }
+                    }
                 }
             }
             .toolbar {
