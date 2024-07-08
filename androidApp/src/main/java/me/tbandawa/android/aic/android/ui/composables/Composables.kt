@@ -22,7 +22,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -56,7 +55,6 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.text.HtmlCompat
 import coil.compose.AsyncImage
 import me.tbandawa.android.aic.android.R
-import me.tbandawa.android.aic.remote.responses.Artwork
 
 @Composable
 fun LoadingData() {
@@ -176,20 +174,24 @@ fun LoadingMoreError(
 
 @Composable
 fun ItemArtwork(
-    artwork: Artwork,
+    id: Int,
+    title: String?,
+    imageId: String?,
+    artistDisplay: String?,
+    departmentTitle: String?,
     viewArtwork: (Int) -> Unit
 ) {
     Row(
         modifier = Modifier
             .clickable {
-                viewArtwork(artwork.id!!)
+                viewArtwork(id)
             }
             .fillMaxWidth()
             .wrapContentHeight()
             .padding(10.dp)
     ) {
         AsyncImage(
-            model = "https://www.artic.edu/iiif/2/" + artwork.imageId + "/full/200,/0/default.jpg",
+            model = "https://www.artic.edu/iiif/2/$imageId/full/200,/0/default.jpg",
             placeholder = painterResource(R.drawable.img_placeholder),
             error = painterResource(R.drawable.img_placeholder),
             contentDescription = "Image",
@@ -202,10 +204,10 @@ fun ItemArtwork(
         Column(
             modifier = Modifier
                 .padding(horizontal = 10.dp)
-                .fillMaxSize()
+                .fillMaxWidth()
         ) {
             Text(
-                text = artwork.title!!,
+                text = title!!,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
                 style = TextStyle(
@@ -213,7 +215,7 @@ fun ItemArtwork(
                     fontWeight = FontWeight.Medium
                 )
             )
-            artwork.artistDisplay?.let {
+            artistDisplay?.let {
                 Spacer(modifier = Modifier.height(6.dp))
                 Text(
                     text = it,
@@ -224,7 +226,7 @@ fun ItemArtwork(
                     )
                 )
             }
-            artwork.departmentTitle?.let {
+            departmentTitle?.let {
                 Spacer(modifier = Modifier.height(6.dp))
                 Text(
                     text = it,
@@ -370,8 +372,8 @@ fun ArtworkHeader(
                     setTextColor(Color.LightGray.hashCode())
                     textSize = 14.sp.value
                 }
-            }, update = {
-                it.text = spannedText
+            }, update = { value ->
+                value.text = spannedText
             })
         }
     }
@@ -491,32 +493,82 @@ fun ArtworkDetails(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+@Preview
+fun ArtworksToolbarPreview() {
+    ArtworksToolbar(title = "Toolbar", scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior())
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+@Preview
+fun ArtworkToolbarPreview() {
+    ArtworkToolbar(navigateBack = {}, scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior())
+}
+
+@Composable
+@Preview
+fun ItemArtworkPreview() {
+    ItemArtwork(
+        id = 12345,
+        imageId = "2d484387-2509-5e8e-2c43-22f9981972eb",
+        title = "Circa ‘70 Coffee Service",
+        departmentTitle = "designed 1958; introduced 1960",
+        artistDisplay = "Designed by Donald Colflesh (American, born 1932)"
+    ) {}
+}
+
+@Composable
+@Preview
+fun ArtworkHeaderPreview() {
+    ArtworkHeader(
+        image = "2d484387-2509-5e8e-2c43-22f9981972eb",
+        title = "Circa ‘70 Coffee Service",
+        dateDisplay = "designed 1958; introduced 1960",
+        artistDisplay = "Designed by Donald Colflesh (American, born 1932)",
+        description = "Made by Gorham Manufacturing Company (founded 1831)\\nProvidence, Rhode Island"
+    )
+}
+
+@Composable
+@Preview
+fun ArtworkDetailsPreview() {
+    ArtworkDetails(
+        title = "Artist",
+        value = "Annual Report (Art Institute of Chicago, 2009–10) p. 13. Judith A. Barter, Elizabeth McGoey, et al."
+    )
+}
+
 @Composable
 @Preview
 fun ArtworkInfoPreview() {
     ArtworkInfo(
-        title = "PUBLICATION HISTORY",
+        title = "INFO",
         info = "Annual Report (Art Institute of Chicago, 2009–10) p. 13.\n\nJudith A. Barter, Elizabeth McGoey, et al., American Silver in the Art Institute of Chicago (New Haven: Yale University Press, 2016), cat. 100 (ill.).\n\nElizabeth McGoey, ed., American Silver in the Art Institute of Chicago (Chicago: Art Institute of Chicago, 2018), <a href=\\\"https://publications.artic.edu/americansilver/reader/collection/section/6\\\">https://publications.artic.edu/americansilver/reader/collection/section/6</a>, cat. 100 (ill.)."
     )
 }
 
 @Composable
 @Preview
-fun ArtworkHeaderPreviews() {
-    ArtworkHeader(
-        image = "2d484387-2509-5e8e-2c43-22f9981972eb",
-        title = "Circa ‘70 Coffee Service",
-        dateDisplay = "designed 1958; introduced 1960",
-        artistDisplay = "Designed by Donald Colflesh (American, born 1932)\\nMade by Gorham Manufacturing Company (founded 1831)\\nProvidence, Rhode Island",
-        description = "Designed by Donald Colflesh (American, born 1932)\\nMade by Gorham Manufacturing Company (founded 1831)\\nProvidence, Rhode Island"
-    )
+fun LoadingDataPreview() {
+    LoadingData()
 }
 
 @Composable
 @Preview
-fun ArtworkArtworkDetailsPreview() {
-    ArtworkDetails(
-        title = "Artist",
-        value = "Annual Report (Art Institute of Chicago, 2009–10) p. 13. Judith A. Barter, Elizabeth McGoey, et al."
-    )
+fun LoadingDataErrorPreview() {
+    LoadingDataError(message = "Error Message") {}
+}
+
+@Composable
+@Preview
+fun LoadingMorePreview() {
+    LoadingMore()
+}
+
+@Composable
+@Preview
+fun LoadingMoreErrorPreview() {
+    LoadingMoreError(message = "Error Message") {}
 }

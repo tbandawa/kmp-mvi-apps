@@ -16,7 +16,7 @@ fun NavGraph() {
         startDestination = "artworks"
     ) {
         composable(route = "artworks") {
-            ArtworksScreen() {
+            ArtworksScreen {
                 navController.navigateToArtwork(it)
             }
         }

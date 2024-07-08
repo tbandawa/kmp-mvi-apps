@@ -35,7 +35,7 @@ kotlin {
             implementation(libs.kotlin.coroutines)
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.content.negotiation)
-            implementation(libs.ktor.serialization.kotlinx.json)
+            api(libs.ktor.serialization.kotlinx.json)
             implementation(libs.ktor.client.logging)
             implementation(libs.kotlin.date.time)
             implementation(libs.gson)
