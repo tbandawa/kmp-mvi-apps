@@ -6,12 +6,13 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import me.tbandawa.android.aic.android.ui.screens.ArtworkScreen
 import me.tbandawa.android.aic.android.ui.screens.ArtworksScreen
 import me.tbandawa.android.aic.lifecycle.ArtworkViewModel
-import me.tbandawa.android.aic.lifecycle.ArtworksState
-import me.tbandawa.android.aic.lifecycle.State
-import me.tbandawa.android.aic.remote.responses.ArtworkResponse
+import me.tbandawa.android.aic.lifecycle.ArtworksViewModel
+import me.tbandawa.android.aic.remote.responses.Artwork
 import org.koin.androidx.compose.inject
 
 @Composable
@@ -21,11 +22,19 @@ fun NavGraph() {
         navController = navController,
         startDestination = "artworks"
     ) {
+
         composable(route = "artworks") {
-            ArtworksScreen {
+
+            val viewModel : ArtworksViewModel by inject()
+            val pagingItems: LazyPagingItems<Artwork> = viewModel.pagedArtworks.collectAsLazyPagingItems()
+
+            ArtworksScreen(
+                pagingItems = pagingItems
+            ) {
                 navController.navigateToArtwork(it)
             }
         }
+
         composable(route = "artwork/{artworkId}") { backStackEntry ->
             val artworkId = requireNotNull(backStackEntry.arguments?.getString("artworkId")) {
                 "Artwork Identifier in missing"

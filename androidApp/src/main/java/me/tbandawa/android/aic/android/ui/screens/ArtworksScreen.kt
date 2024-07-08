@@ -22,25 +22,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
-import androidx.paging.compose.collectAsLazyPagingItems
 import me.tbandawa.android.aic.android.ui.composables.ArtworksToolbar
 import me.tbandawa.android.aic.android.ui.composables.ItemArtwork
 import me.tbandawa.android.aic.android.ui.composables.LoadingData
 import me.tbandawa.android.aic.android.ui.composables.LoadingDataError
 import me.tbandawa.android.aic.android.ui.composables.LoadingMore
 import me.tbandawa.android.aic.android.ui.composables.LoadingMoreError
-import me.tbandawa.android.aic.lifecycle.ArtworksViewModel
 import me.tbandawa.android.aic.remote.responses.Artwork
-import org.koin.androidx.compose.inject
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
 @Composable
 fun ArtworksScreen(
+    pagingItems: LazyPagingItems<Artwork>,
     navigateToArtwork: (artworkId: Int) -> Unit
 ) {
-
-    val viewModel : ArtworksViewModel by inject()
 
     Surface(
         modifier = Modifier.fillMaxSize()
@@ -49,7 +45,7 @@ fun ArtworksScreen(
         val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
             rememberTopAppBarState()
         )
-        val pagingItems: LazyPagingItems<Artwork> = viewModel.pagedArtworks.collectAsLazyPagingItems()
+
         val pullRefreshState = rememberPullRefreshState(
             refreshing = pagingItems.loadState.refresh is LoadState.Loading && pagingItems.itemSnapshotList.size > 0,
             onRefresh = {
