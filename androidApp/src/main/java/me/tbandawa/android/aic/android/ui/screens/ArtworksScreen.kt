@@ -77,7 +77,14 @@ fun ArtworksScreen(
                         .fillMaxSize()
                 ) {
                     items(pagingItems.itemCount) { index ->
-                        ItemArtwork(artwork = pagingItems[index]!!) { artworkId ->
+                        val artwork = pagingItems[index]!!
+                        ItemArtwork(
+                            id = artwork.id!!,
+                            title = artwork.title,
+                            imageId = artwork.imageId,
+                            artistDisplay = artwork.artistDisplay,
+                            departmentTitle = artwork.departmentTitle
+                        ) { artworkId ->
                             navigateToArtwork(artworkId)
                         }
                     }
