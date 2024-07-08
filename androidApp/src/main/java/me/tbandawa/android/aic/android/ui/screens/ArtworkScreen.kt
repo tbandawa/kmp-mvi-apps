@@ -14,7 +14,6 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -25,24 +24,22 @@ import me.tbandawa.android.aic.android.ui.composables.ArtworkInfo
 import me.tbandawa.android.aic.android.ui.composables.ArtworkToolbar
 import me.tbandawa.android.aic.android.ui.composables.LoadingData
 import me.tbandawa.android.aic.android.ui.composables.LoadingDataError
-import me.tbandawa.android.aic.lifecycle.ArtworkViewModel
 import me.tbandawa.android.aic.lifecycle.ArtworksIntent
 import me.tbandawa.android.aic.lifecycle.ArtworksState
 import me.tbandawa.android.aic.remote.responses.ArtworkResponse
 import me.tbandawa.android.aic.remote.responses.ErrorResponse
-import org.koin.androidx.compose.inject
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ArtworkScreen(
     artworkId: Int,
+    artworkState: ArtworksState<ArtworkResponse>,
+    handleIntent: (ArtworksIntent) -> Unit,
     navigateBack: () -> Unit
 ) {
 
-    val viewModel : ArtworkViewModel by inject()
-
     LaunchedEffect(true) {
-        viewModel.handleIntent(ArtworksIntent.GetArtwork(id = artworkId))
+        handleIntent(ArtworksIntent.GetArtwork(id = artworkId))
     }
 
     Surface(
@@ -53,7 +50,6 @@ fun ArtworkScreen(
         val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
             rememberTopAppBarState()
         )
-        val artworkState = viewModel.state.collectAsState()
 
         Scaffold(
             modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -62,7 +58,7 @@ fun ArtworkScreen(
                 ArtworkToolbar(navigateBack = navigateBack, scrollBehavior = scrollBehavior)
             },
         ) { paddingValues ->
-            when (artworkState.value) {
+            when (artworkState) {
                 is ArtworksState.Idle -> {}
                 is ArtworksState.Loading -> {
                     LoadingData()
@@ -75,7 +71,7 @@ fun ArtworkScreen(
                             .padding(horizontal = 16.dp)
                             .verticalScroll(rememberScrollState())
                     ) {
-                        val artwork = (artworkState.value as ArtworksState.Success<*>).data as ArtworkResponse
+                        val artwork = (artworkState as ArtworksState.Success<*>).data as ArtworkResponse
                         ArtworkHeader(
                             image = artwork.data.imageId!!,
                             title = artwork.data.title!!,
@@ -123,9 +119,9 @@ fun ArtworkScreen(
                     }
                 }
                 is ArtworksState.Error -> {
-                    val error = (artworkState.value as ArtworksState.Error<Any>).data as ErrorResponse
+                    val error = (artworkState as ArtworksState.Error<Any>).data as ErrorResponse
                     LoadingDataError(message = error.detail) {
-                        viewModel.handleIntent(ArtworksIntent.GetArtwork(id = artworkId))
+                        handleIntent(ArtworksIntent.GetArtwork(id = artworkId))
                     }
                 }
             }
