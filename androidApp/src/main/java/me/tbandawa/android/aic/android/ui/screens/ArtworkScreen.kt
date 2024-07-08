@@ -17,6 +17,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import me.tbandawa.android.aic.android.ui.composables.ArtworkDetails
 import me.tbandawa.android.aic.android.ui.composables.ArtworkHeader
@@ -127,4 +128,15 @@ fun ArtworkScreen(
             }
         }
     }
+}
+
+@Composable
+@Preview
+fun ArtworkScreenPreview() {
+    ArtworkScreen(
+        artworkId = 1,
+        artworkState = ArtworksState.Loading,
+        handleIntent = {},
+        navigateBack = {}
+    )
 }

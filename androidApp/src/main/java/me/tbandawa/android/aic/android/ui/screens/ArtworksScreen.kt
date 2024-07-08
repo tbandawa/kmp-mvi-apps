@@ -20,8 +20,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.paging.LoadState
+import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
+import kotlinx.coroutines.flow.MutableStateFlow
 import me.tbandawa.android.aic.android.ui.composables.ArtworksToolbar
 import me.tbandawa.android.aic.android.ui.composables.ItemArtwork
 import me.tbandawa.android.aic.android.ui.composables.LoadingData
@@ -113,4 +117,16 @@ fun ArtworksScreen(
             }
         }
     }
+}
+
+@Composable
+@Preview
+fun ArtworksScreenPreview() {
+    val data = emptyList<Artwork>()
+    val flow = MutableStateFlow(PagingData.from(data))
+    val lazyPagingItems = flow.collectAsLazyPagingItems()
+    ArtworksScreen(
+        pagingItems = lazyPagingItems,
+        navigateToArtwork = {}
+    )
 }
