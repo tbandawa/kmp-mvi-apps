@@ -61,12 +61,8 @@ struct ArtworksScreen: View {
                         .scaledToFit()
                         .frame(width: 35, height: 35)
                 }
-                ToolbarItem(placement: .navigation) {
-                    Text("Art Institute of Chicago")
-                        .font(.system(size: 22, weight: .bold, design: .rounded))
-                        .foregroundColor(.black)
-                }
             }
+            .navigationTitle("Art Institute of Chicago")
         }
     }
 }

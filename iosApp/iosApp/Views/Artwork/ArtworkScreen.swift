@@ -11,6 +11,7 @@ import data
 
 struct ArtworkScreen: View {
     
+    @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var artworkState: ArtworkState
     
     var artworkId: Int32
@@ -34,6 +35,18 @@ struct ArtworkScreen: View {
         }
         .onAppear {
             artworkState.handleIntent(intent: ArtworksIntent.GetArtwork(id: artworkId))
+        }
+        .navigationBarBackButtonHidden(true)
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button {
+                    presentationMode.wrappedValue.dismiss()
+                } label: {
+                    Image(systemName: "arrow.left")
+                        .foregroundColor(.black)
+                }
+            }
         }
     }
 }
