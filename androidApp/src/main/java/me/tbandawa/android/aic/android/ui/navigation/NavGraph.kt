@@ -22,27 +22,21 @@ fun NavGraph() {
         navController = navController,
         startDestination = "artworks"
     ) {
-
         composable(route = "artworks") {
-
             val viewModel : ArtworksViewModel by inject()
             val pagingItems: LazyPagingItems<Artwork> = viewModel.pagedArtworks.collectAsLazyPagingItems()
-
             ArtworksScreen(
                 pagingItems = pagingItems
             ) {
                 navController.navigateToArtwork(it)
             }
         }
-
         composable(route = "artwork/{artworkId}") { backStackEntry ->
             val artworkId = requireNotNull(backStackEntry.arguments?.getString("artworkId")) {
                 "Artwork Identifier in missing"
             }
-
             val viewModel : ArtworkViewModel by inject()
             val artworkState = viewModel.state.collectAsState().value
-
             ArtworkScreen(
                 artworkId = artworkId.toInt(),
                 artworkState = artworkState,

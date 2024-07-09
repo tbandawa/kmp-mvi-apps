@@ -1,0 +1,23 @@
+{
+  "configurations" : [
+    {
+      "id" : "78BF4400-C4AA-4B22-BE77-DCE2DF35CF66",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false,
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:iosApp.xcodeproj",
+      "identifier" : "7555FF7A242A565900829871",
+      "name" : "iosApp"
+    }
+  },
+  "testTargets" : [
+
+  ],
+  "version" : 1
+}

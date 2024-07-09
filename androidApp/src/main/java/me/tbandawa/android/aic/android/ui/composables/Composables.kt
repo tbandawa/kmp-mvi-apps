@@ -326,7 +326,6 @@ fun ArtworkHeader(
             placeholder = painterResource(R.drawable.img_placeholder),
             error = painterResource(R.drawable.img_placeholder),
             contentDescription = "Image",
-            contentScale = ContentScale.Fit,
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()

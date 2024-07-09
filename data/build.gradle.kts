@@ -25,7 +25,7 @@ kotlin {
         podfile = project.file("../iosApp/Podfile")
         framework {
             baseName = "data"
-            isStatic = true
+            isStatic = false
         }
     }
     

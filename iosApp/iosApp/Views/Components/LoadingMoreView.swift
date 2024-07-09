@@ -36,3 +36,12 @@ struct LoadingMoreView: View {
         }
     }
 }
+
+struct LoadingMoreView_Previews: PreviewProvider {
+    static var previews: some View {
+        LoadingMoreView(
+            errorMessage: nil,
+            retry: {}
+        )
+    }
+}
