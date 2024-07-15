@@ -14,7 +14,7 @@ struct ArtworksScreen: View {
     @EnvironmentObject var artworksState: ArtworksState
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack {
                 ZStack {
                     if let items = artworksState.items {
