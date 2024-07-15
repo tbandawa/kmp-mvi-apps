@@ -1,15 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "logo.png",
+      "filename" : "aic_logo.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "aic_logo 1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "aic_logo 2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
