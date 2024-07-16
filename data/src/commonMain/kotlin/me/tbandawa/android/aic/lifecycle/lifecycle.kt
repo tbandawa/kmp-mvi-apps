@@ -10,6 +10,7 @@ import me.tbandawa.android.aic.remote.responses.ErrorResponse
 interface State
 interface Intent
 interface Effect
+interface Reducer
 
 sealed class ArtworksState<out M>: State {
     data class Success<out M>(val data: M): ArtworksState<M>()
