@@ -26,6 +26,7 @@ import me.tbandawa.android.aic.android.ui.composables.ArtworkToolbar
 import me.tbandawa.android.aic.android.ui.composables.LoadingData
 import me.tbandawa.android.aic.android.ui.composables.LoadingDataError
 import me.tbandawa.android.aic.lifecycle.ArtworksIntent
+import me.tbandawa.android.aic.lifecycle.ArtworksResults
 import me.tbandawa.android.aic.lifecycle.ArtworksState
 import me.tbandawa.android.aic.remote.responses.ArtworkResponse
 import me.tbandawa.android.aic.remote.responses.ErrorResponse
@@ -64,7 +65,7 @@ fun ArtworkScreen(
                 is ArtworksState.Loading -> {
                     LoadingData()
                 }
-                is ArtworksState.Success -> {
+                is ArtworksState.Data -> {
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
@@ -72,7 +73,7 @@ fun ArtworkScreen(
                             .padding(horizontal = 16.dp)
                             .verticalScroll(rememberScrollState())
                     ) {
-                        val artwork = (artworkState as ArtworksState.Success<*>).data as ArtworkResponse
+                        val artwork = (artworkState as ArtworksState.Data<*>).data as ArtworkResponse
                         ArtworkHeader(
                             image = artwork.data.imageId!!,
                             title = artwork.data.title!!,
@@ -120,7 +121,7 @@ fun ArtworkScreen(
                     }
                 }
                 is ArtworksState.Error -> {
-                    val error = (artworkState as ArtworksState.Error<Any>).data as ErrorResponse
+                    val error = (artworkState as ArtworksResults.Error<Any>).data as ErrorResponse
                     LoadingDataError(message = error.detail) {
                         handleIntent(ArtworksIntent.GetArtwork(id = artworkId))
                     }

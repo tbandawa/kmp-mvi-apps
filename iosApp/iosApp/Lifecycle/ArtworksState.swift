@@ -28,7 +28,7 @@ class ArtworksState: ObservableObject {
             self.error = nil
             
             switch state {
-                case let success as ArtworksStateSuccess<ArtworksResponse>:
+                case let success as ArtworksStateData<ArtworksResponse>:
                     self.currentPage += 1
                     self.items?.append(contentsOf: self.mapToItems(items: success.data!.data as NSArray as! [Artwork]))
                     self.loading = false

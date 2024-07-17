@@ -11,7 +11,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import me.tbandawa.android.aic.lifecycle.ArtworksState
+import me.tbandawa.android.aic.lifecycle.ArtworksResults
 import me.tbandawa.android.aic.remote.api.AicApi
 import me.tbandawa.android.aic.remote.responses.Artwork
 import me.tbandawa.android.aic.remote.responses.ArtworkResponse
@@ -30,15 +30,15 @@ class AicRepositoryImpl(
         ).flow.flowOn(coroutineDispatcher)
     }
 
-    override suspend fun getArtworks(page: Int): Flow<ArtworksState<ArtworksResponse>> = flow {
-        emit(ArtworksState.Loading)
+    override suspend fun getArtworks(page: Int): Flow<ArtworksResults<ArtworksResponse>> = flow {
+        emit(ArtworksResults.Loading)
         emit(handleApiCall {
             api.getArtworks(page)
         })
     }.flowOn(coroutineDispatcher)
 
-    override suspend fun getArtwork(id: Int): Flow<ArtworksState<ArtworkResponse>> = flow {
-        emit(ArtworksState.Loading)
+    override suspend fun getArtwork(id: Int): Flow<ArtworksResults<ArtworkResponse>> = flow {
+        emit(ArtworksResults.Loading)
         emit(handleApiCall {
             api.getArtwork(id)
         })
@@ -47,19 +47,19 @@ class AicRepositoryImpl(
 
 suspend fun <T> handleApiCall(
     apiCall: suspend () -> T
-): ArtworksState<T> {
+): ArtworksResults<T> {
     return try {
         val response = apiCall()
-        ArtworksState.Success(response)
+        ArtworksResults.Success(response)
     } catch (e: ResponseException) {
-        ArtworksState.Error(ErrorResponse(e.response.status.value, e.response.status.description, "Invalid server response"))
+        ArtworksResults.Error(ErrorResponse(e.response.status.value, e.response.status.description, "Invalid server response"))
     } catch (e: ClientRequestException) {
-        ArtworksState.Error(ErrorResponse(e.response.status.value, e.response.status.description, "Server could not process your request"))
+        ArtworksResults.Error(ErrorResponse(e.response.status.value, e.response.status.description, "Server could not process your request"))
     } catch (e: ServerResponseException) {
-        ArtworksState.Error(ErrorResponse(e.response.status.value, e.response.status.description, "Invalid operation. Unable to complete task"))
+        ArtworksResults.Error(ErrorResponse(e.response.status.value, e.response.status.description, "Invalid operation. Unable to complete task"))
     } catch (e: IOException) {
-        ArtworksState.Error(ErrorResponse(500, "Connection Error", "Server unreachable. Please check your internet connection and try again"))
+        ArtworksResults.Error(ErrorResponse(500, "Connection Error", "Server unreachable. Please check your internet connection and try again"))
     } catch (e: Exception) {
-        ArtworksState.Error(ErrorResponse(500, "Error Occurred", "Unexpected error occured. Try again"))
+        ArtworksResults.Error(ErrorResponse(500, "Error Occurred", "Unexpected error occured. Try again"))
     }
 }
