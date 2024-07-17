@@ -2,7 +2,7 @@ package me.tbandawa.android.aic.remote.repo
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import me.tbandawa.android.aic.lifecycle.ArtworksState
+import me.tbandawa.android.aic.lifecycle.ArtworksResults
 import me.tbandawa.android.aic.remote.api.AicApi
 import me.tbandawa.android.aic.remote.responses.Artwork
 
@@ -17,14 +17,14 @@ class ArtworkPagingSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Artwork> {
         val position = params.key ?: STARTING_PAGE_INDEX
         return when (val result = handleApiCall { api.getArtworks(position) }) {
-            is ArtworksState.Success -> {
+            is ArtworksResults.Success -> {
                 LoadResult.Page(
                     data = result.data.data,
                     prevKey = if (position == STARTING_PAGE_INDEX) null else position - 1,
                     nextKey = if (result.data.data.isEmpty()) null else position + 1
                 )
             }
-            is ArtworksState.Error -> {
+            is ArtworksResults.Error -> {
                 LoadResult.Error(Throwable(result.data?.detail))
             }
             else -> {

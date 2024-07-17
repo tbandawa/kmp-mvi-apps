@@ -32,7 +32,7 @@ class ArtworksViewModel(
 
     private suspend fun getArtWorks(page: Int) {
         repository.getArtworks(page = page).collect { state ->
-            _state.value = state
+            _state.value = state.reduce()
         }
     }
 
