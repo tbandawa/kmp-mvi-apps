@@ -17,3 +17,4 @@ dependencyResolutionManagement {
 rootProject.name = "kmp-mvi-apps"
 include(":androidApp")
 include(":data")
+include(":domain")
