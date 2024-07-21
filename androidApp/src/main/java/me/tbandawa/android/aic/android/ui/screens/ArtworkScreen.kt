@@ -25,9 +25,9 @@ import me.tbandawa.android.aic.android.ui.composables.ArtworkInfo
 import me.tbandawa.android.aic.android.ui.composables.ArtworkToolbar
 import me.tbandawa.android.aic.android.ui.composables.LoadingData
 import me.tbandawa.android.aic.android.ui.composables.LoadingDataError
-import me.tbandawa.android.aic.lifecycle.ArtworksIntent
-import me.tbandawa.android.aic.lifecycle.ArtworksResults
-import me.tbandawa.android.aic.lifecycle.ArtworksState
+import me.tbandawa.android.aic.core.ArtworksIntent
+import me.tbandawa.android.aic.core.ArtworksResults
+import me.tbandawa.android.aic.core.ArtworksState
 import me.tbandawa.android.aic.remote.responses.ArtworkResponse
 import me.tbandawa.android.aic.remote.responses.ErrorResponse
 

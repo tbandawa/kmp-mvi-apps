@@ -2,11 +2,11 @@ package me.tbandawa.android.aic.di
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
-import me.tbandawa.android.aic.lifecycle.ArtworkViewModel
+import me.tbandawa.android.aic.viewmodels.ArtworkViewModel
 import me.tbandawa.android.aic.remote.api.AicApi
 import me.tbandawa.android.aic.remote.repo.AicRepository
 import me.tbandawa.android.aic.remote.repo.AicRepositoryImpl
-import me.tbandawa.android.aic.lifecycle.ArtworksViewModel
+import me.tbandawa.android.aic.viewmodels.ArtworksViewModel
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import org.koin.core.context.startKoin

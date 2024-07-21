@@ -11,7 +11,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import me.tbandawa.android.aic.lifecycle.ArtworksResults
+import me.tbandawa.android.aic.core.ArtworksResults
 import me.tbandawa.android.aic.remote.api.AicApi
 import me.tbandawa.android.aic.remote.responses.Artwork
 import me.tbandawa.android.aic.remote.responses.ArtworkResponse
