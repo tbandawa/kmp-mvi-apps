@@ -12,12 +12,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import me.tbandawa.android.aic.core.ArtworksResults
-import me.tbandawa.android.aic.remote.api.AicApi
-import me.tbandawa.android.aic.remote.responses.ErrorResponse
-import me.tbandawa.kmm.aic.domain.models.Artwork
-import me.tbandawa.android.aic.domain.models.Artworks
+import me.tbandawa.android.aic.domain.models.Artwork
 import me.tbandawa.android.aic.domain.repository.AicRepository
+import me.tbandawa.android.aic.remote.api.AicApi
 import me.tbandawa.android.aic.remote.mapper.ArtworkMapper
+import me.tbandawa.android.aic.remote.responses.ErrorResponse
 
 class AicRepositoryImpl(
     private val api: AicApi,
@@ -32,17 +31,17 @@ class AicRepositoryImpl(
         ).flow.flowOn(coroutineDispatcher)
     }
 
-    override suspend fun getArtworks(page: Int): Flow<ArtworksResults<Artworks>> = flow {
+    override suspend fun getArtworks(page: Int): Flow<ArtworksResults<List<Artwork>>> = flow {
         emit(ArtworksResults.Loading)
         emit(handleApiCall {
-            artworkMapper.mapToModelList(api.getArtworks(page))
+            artworkMapper.mapResponseToModels(api.getArtworks(page))
         })
     }.flowOn(coroutineDispatcher)
 
     override suspend fun getArtwork(id: Int): Flow<ArtworksResults<Artwork>> = flow {
         emit(ArtworksResults.Loading)
         emit(handleApiCall {
-            artworkMapper.mapToModel(api.getArtwork(id))
+            artworkMapper.mapResponseToModel(api.getArtwork(id))
         })
     }.flowOn(coroutineDispatcher)
 }
@@ -62,6 +61,6 @@ suspend fun <T> handleApiCall(
     } catch (e: IOException) {
         ArtworksResults.Error(ErrorResponse(500, "Connection Error", "Server unreachable. Please check your internet connection and try again"))
     } catch (e: Exception) {
-        ArtworksResults.Error(ErrorResponse(500, "Error Occurred", "Unexpected error occured. Try again"))
+        ArtworksResults.Error(ErrorResponse(500, "Error Occurred", "Unexpected error occurred. Try again"))
     }
 }

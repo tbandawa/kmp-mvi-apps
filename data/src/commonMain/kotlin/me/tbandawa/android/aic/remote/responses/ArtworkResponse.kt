@@ -5,5 +5,5 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ArtworkResponse(
-    @SerialName("data") var data: Data
+    @SerialName("data") var data: ArtworkEntity
 )

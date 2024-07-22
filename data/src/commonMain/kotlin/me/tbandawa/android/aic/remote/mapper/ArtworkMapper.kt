@@ -1,57 +1,39 @@
 package me.tbandawa.android.aic.remote.mapper
 
 import me.tbandawa.android.aic.domain.mapper.ResponseMapper
+import me.tbandawa.android.aic.domain.models.Artwork
 import me.tbandawa.android.aic.remote.responses.ArtworkResponse
 import me.tbandawa.android.aic.remote.responses.ArtworksResponse
-import me.tbandawa.kmm.aic.domain.models.Artwork
-import me.tbandawa.android.aic.domain.models.Artworks
+import me.tbandawa.android.aic.remote.responses.ArtworkEntity
 
-class ArtworkMapper : ResponseMapper<ArtworkResponse, ArtworksResponse, Artwork, Artworks> {
+class ArtworkMapper : ResponseMapper<ArtworkResponse, ArtworksResponse, ArtworkEntity, Artwork> {
 
-    override fun mapToModel(entity: ArtworkResponse): Artwork {
-        val artworkEntity = entity.data
-        return Artwork(
-            artworkEntity.id,
-            artworkEntity.title,
-            artworkEntity.mainReferenceNumber,
-            artworkEntity.dateDisplay,
-            artworkEntity.artistDisplay,
-            artworkEntity.placeOfOrigin,
-            artworkEntity.artDescription,
-            artworkEntity.mediumDisplay,
-            artworkEntity.inscriptions,
-            artworkEntity.creditLine,
-            artworkEntity.catalogueDisplay,
-            artworkEntity.publicationHistory,
-            artworkEntity.exhibitionHistory,
-            artworkEntity.provenanceText,
-            artworkEntity.artistTitle,
-            artworkEntity.imageId
-        )
+    override fun mapResponseToModel(response: ArtworkResponse): Artwork {
+        return mapEntityToModel(response.data)
     }
 
-    override fun mapToModelList(entity: ArtworksResponse): Artworks {
-        return Artworks(
-            data = entity.data.map {
-                Artwork(
-                    it.id,
-                    it.title,
-                    it.mainReferenceNumber,
-                    it.dateDisplay,
-                    it.artistDisplay,
-                    it.placeOfOrigin,
-                    it.artDescription,
-                    it.mediumDisplay,
-                    it.inscriptions,
-                    it.creditLine,
-                    it.catalogueDisplay,
-                    it.publicationHistory,
-                    it.exhibitionHistory,
-                    it.provenanceText,
-                    it.artistTitle,
-                    it.imageId
-                )
-            }
+    override fun mapResponseToModels(response: ArtworksResponse): List<Artwork> {
+        return response.data.map { mapEntityToModel(it) }
+    }
+
+    override fun mapEntityToModel(entity: ArtworkEntity): Artwork {
+        return Artwork(
+            entity.id,
+            entity.title,
+            entity.mainReferenceNumber,
+            entity.dateDisplay,
+            entity.artistDisplay,
+            entity.placeOfOrigin,
+            entity.artDescription,
+            entity.mediumDisplay,
+            entity.inscriptions,
+            entity.creditLine,
+            entity.catalogueDisplay,
+            entity.publicationHistory,
+            entity.exhibitionHistory,
+            entity.provenanceText,
+            entity.artistTitle,
+            entity.imageId
         )
     }
 }

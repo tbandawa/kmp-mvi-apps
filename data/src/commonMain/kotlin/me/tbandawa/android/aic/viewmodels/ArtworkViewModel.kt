@@ -10,7 +10,7 @@ import me.tbandawa.android.aic.core.ArtworksState
 import me.tbandawa.android.aic.core.reduce
 import me.tbandawa.android.aic.domain.base.BaseViewModel
 import me.tbandawa.android.aic.domain.repository.AicRepository
-import me.tbandawa.kmm.aic.domain.models.Artwork
+import me.tbandawa.android.aic.domain.models.Artwork
 
 class ArtworkViewModel(
     private val repository: AicRepository

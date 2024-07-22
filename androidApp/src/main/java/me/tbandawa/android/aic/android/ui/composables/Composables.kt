@@ -93,7 +93,7 @@ fun LoadingDataError(
             Text(
                 text = message,
                 style = TextStyle(
-                    fontSize = 12.sp
+                    fontSize = 10.sp
                 )
             )
             Spacer(modifier = Modifier.height(5.dp))
@@ -104,7 +104,7 @@ fun LoadingDataError(
                     },
                 text = "Retry",
                 style = TextStyle(
-                    fontSize = 12.sp,
+                    fontSize = 10.sp,
                     textDecoration = TextDecoration.Underline
                 )
             )
@@ -153,7 +153,7 @@ fun LoadingMoreError(
             Text(
                 text = message,
                 style = TextStyle(
-                    fontSize = 12.sp
+                    fontSize = 10.sp
                 )
             )
             Spacer(modifier = Modifier.height(5.dp))
@@ -164,7 +164,7 @@ fun LoadingMoreError(
                     },
                 text = "Retry",
                 style = TextStyle(
-                    fontSize = 12.sp,
+                    fontSize = 10.sp,
                     textDecoration = TextDecoration.Underline
                 )
             )

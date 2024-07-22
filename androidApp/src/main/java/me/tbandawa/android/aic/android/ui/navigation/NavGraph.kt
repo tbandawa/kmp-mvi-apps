@@ -12,8 +12,7 @@ import me.tbandawa.android.aic.android.ui.screens.ArtworkScreen
 import me.tbandawa.android.aic.android.ui.screens.ArtworksScreen
 import me.tbandawa.android.aic.viewmodels.ArtworkViewModel
 import me.tbandawa.android.aic.viewmodels.ArtworksViewModel
-import me.tbandawa.android.aic.remote.responses.Data
-import me.tbandawa.kmm.aic.domain.models.Artwork
+import me.tbandawa.android.aic.domain.models.Artwork
 import org.koin.androidx.compose.inject
 
 @Composable

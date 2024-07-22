@@ -29,7 +29,7 @@ import me.tbandawa.android.aic.core.ArtworksIntent
 import me.tbandawa.android.aic.core.ArtworksResults
 import me.tbandawa.android.aic.core.ArtworksState
 import me.tbandawa.android.aic.remote.responses.ErrorResponse
-import me.tbandawa.kmm.aic.domain.models.Artwork
+import me.tbandawa.android.aic.domain.models.Artwork
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

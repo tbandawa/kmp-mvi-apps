@@ -10,14 +10,14 @@ import me.tbandawa.android.aic.core.ArtworksIntent
 import me.tbandawa.android.aic.core.ArtworksState
 import me.tbandawa.android.aic.core.reduce
 import me.tbandawa.android.aic.domain.base.BaseViewModel
-import me.tbandawa.android.aic.domain.models.Artworks
+import me.tbandawa.android.aic.domain.models.Artwork
 import me.tbandawa.android.aic.domain.repository.AicRepository
 
 class ArtworksViewModel(
     private val repository: AicRepository
-): BaseViewModel<ArtworksState<Artworks>, ArtworksIntent, ArtworksEffect>() {
+): BaseViewModel<ArtworksState<List<Artwork>>, ArtworksIntent, ArtworksEffect>() {
 
-    override fun createInitialState(): ArtworksState<Artworks> = ArtworksState.Idle
+    override fun createInitialState(): ArtworksState<List<Artwork>> = ArtworksState.Idle
 
     val pagedArtworks = repository
         .getArtWorks()
@@ -41,7 +41,7 @@ class ArtworksViewModel(
         }
     }
 
-    override fun observeResource(provideResourceState: (ArtworksState<Artworks>) -> Unit) {
+    override fun observeResource(provideResourceState: (ArtworksState<List<Artwork>>) -> Unit) {
         _state.onEach {
             provideResourceState.invoke(it)
         }.launchIn(viewModelScope)

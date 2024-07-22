@@ -1,4 +1,4 @@
-package me.tbandawa.kmm.aic.domain.models
+package me.tbandawa.android.aic.domain.models
 
 data class Artwork(
     var id: Int?,
