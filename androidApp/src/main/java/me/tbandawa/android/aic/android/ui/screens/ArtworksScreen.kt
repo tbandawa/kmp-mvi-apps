@@ -83,7 +83,7 @@ fun ArtworksScreen(
                             title = artwork.title,
                             imageId = artwork.imageId,
                             artistDisplay = artwork.artistDisplay,
-                            departmentTitle = artwork.title
+                            departmentTitle = artwork.departmentTitle
                         ) { artworkId ->
                             navigateToArtwork(artworkId)
                         }

@@ -23,6 +23,7 @@ class ArtworkMapper : ResponseMapper<ArtworkResponse, ArtworksResponse, ArtworkE
             entity.mainReferenceNumber,
             entity.dateDisplay,
             entity.artistDisplay,
+            entity.departmentTitle,
             entity.placeOfOrigin,
             entity.artDescription,
             entity.mediumDisplay,

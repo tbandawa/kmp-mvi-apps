@@ -6,6 +6,7 @@ data class Artwork(
     var mainReferenceNumber: String?,
     var dateDisplay: String?,
     var artistDisplay: String?,
+    var departmentTitle: String?,
     var placeOfOrigin: String?,
     var artDescription: String?,
     var mediumDisplay: String?,
