@@ -1,11 +1,11 @@
 package me.tbandawa.android.aic.core
 
-import me.tbandawa.android.aic.remote.responses.ArtworkResponse
-import me.tbandawa.android.aic.remote.responses.ArtworksResponse
+import me.tbandawa.android.aic.domain.models.Artworks
+import me.tbandawa.kmm.aic.domain.models.Artwork
 import kotlin.jvm.JvmName
 
 @JvmName("reduceArtworks")
-fun ArtworksResults<ArtworksResponse>.reduce(): ArtworksState<ArtworksResponse> {
+fun ArtworksResults<Artworks>.reduce(): ArtworksState<Artworks> {
     return when (this) {
         is ArtworksResults.Error -> ArtworksState.Error(data)
         is ArtworksResults.Idle -> ArtworksState.Idle
@@ -15,7 +15,7 @@ fun ArtworksResults<ArtworksResponse>.reduce(): ArtworksState<ArtworksResponse> 
 }
 
 @JvmName("reduceArtwork")
-fun ArtworksResults<ArtworkResponse>.reduce(): ArtworksState<ArtworkResponse> {
+fun ArtworksResults<Artwork>.reduce(): ArtworksState<Artwork> {
     return when (this) {
         is ArtworksResults.Error -> ArtworksState.Error(data)
         is ArtworksResults.Idle -> ArtworksState.Idle

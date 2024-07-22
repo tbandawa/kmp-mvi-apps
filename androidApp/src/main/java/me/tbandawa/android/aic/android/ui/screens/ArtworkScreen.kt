@@ -28,14 +28,14 @@ import me.tbandawa.android.aic.android.ui.composables.LoadingDataError
 import me.tbandawa.android.aic.core.ArtworksIntent
 import me.tbandawa.android.aic.core.ArtworksResults
 import me.tbandawa.android.aic.core.ArtworksState
-import me.tbandawa.android.aic.remote.responses.ArtworkResponse
 import me.tbandawa.android.aic.remote.responses.ErrorResponse
+import me.tbandawa.kmm.aic.domain.models.Artwork
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ArtworkScreen(
     artworkId: Int,
-    artworkState: ArtworksState<ArtworkResponse>,
+    artworkState: ArtworksState<Artwork>,
     handleIntent: (ArtworksIntent) -> Unit,
     navigateBack: () -> Unit
 ) {
@@ -73,49 +73,49 @@ fun ArtworkScreen(
                             .padding(horizontal = 16.dp)
                             .verticalScroll(rememberScrollState())
                     ) {
-                        val artwork = (artworkState as ArtworksState.Data<*>).data as ArtworkResponse
+                        val artwork = (artworkState as ArtworksState.Data<*>).data as Artwork
                         ArtworkHeader(
-                            image = artwork.data.imageId!!,
-                            title = artwork.data.title!!,
-                            dateDisplay = artwork.data.dateDisplay,
-                            artistDisplay = artwork.data.artistDisplay,
-                            description = artwork.data.artDescription
+                            image = artwork.imageId!!,
+                            title = artwork.title!!,
+                            dateDisplay = artwork.dateDisplay,
+                            artistDisplay = artwork.artistDisplay,
+                            description = artwork.artDescription
                         )
                         Spacer(modifier = Modifier.height(15.dp))
-                        artwork.data.artistTitle?.let {
+                        artwork.artistTitle?.let {
                             ArtworkDetails(title = "Artist", value = it)
                         }
-                        artwork.data.title?.let {
+                        artwork.title?.let {
                             ArtworkDetails(title = "Title", value = it)
                         }
-                        artwork.data.placeOfOrigin?.let {
+                        artwork.placeOfOrigin?.let {
                             ArtworkDetails(title = "Place", value = it)
                         }
-                        artwork.data.dateDisplay?.let {
+                        artwork.dateDisplay?.let {
                             ArtworkDetails(title = "Date", value = it)
                         }
-                        artwork.data.mediumDisplay?.let {
+                        artwork.mediumDisplay?.let {
                             ArtworkDetails(title = "Medium", value = it)
                         }
-                        artwork.data.inscriptions?.let {
+                        artwork.inscriptions?.let {
                             ArtworkDetails(title = "Inscriptions", value = it)
                         }
-                        artwork.data.creditLine?.let {
+                        artwork.creditLine?.let {
                             ArtworkDetails(title = "Credit Line", value = it)
                         }
-                        artwork.data.mainReferenceNumber?.let {
+                        artwork.mainReferenceNumber?.let {
                             ArtworkDetails(title = "Reference No.", value = it)
                         }
-                        artwork.data.publicationHistory?.let {
+                        artwork.publicationHistory?.let {
                             ArtworkInfo(title = "PUBLICATION HISTORY", info = it)
                         }
-                        artwork.data.exhibitionHistory?.let {
+                        artwork.exhibitionHistory?.let {
                             ArtworkInfo(title = "EXHIBITION HISTORY", info = it)
                         }
-                        artwork.data.provenanceText?.let {
+                        artwork.provenanceText?.let {
                             ArtworkInfo(title = "PROVENANCE", info = it)
                         }
-                        artwork.data.catalogueDisplay?.let {
+                        artwork.catalogueDisplay?.let {
                             ArtworkInfo(title = "CATALOGUE RAISONNÉS", info = it)
                         }
                     }

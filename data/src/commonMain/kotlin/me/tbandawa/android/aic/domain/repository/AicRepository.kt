@@ -1,10 +1,10 @@
-package me.tbandawa.kmm.aic.domain.repository
+package me.tbandawa.android.aic.domain.repository
 
 import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow
-import me.tbandawa.android.aic.domain.base.ArtworksResults
+import me.tbandawa.android.aic.core.ArtworksResults
 import me.tbandawa.kmm.aic.domain.models.Artwork
-import me.tbandawa.kmm.aic.domain.models.Artworks
+import me.tbandawa.android.aic.domain.models.Artworks
 
 interface AicRepository {
     fun getArtWorks(): Flow<PagingData<Artwork>>

@@ -1,4 +1,4 @@
-package me.tbandawa.kmm.aic.domain.models
+package me.tbandawa.android.aic.domain.models
 
 data class Exception(
     val status: Int,

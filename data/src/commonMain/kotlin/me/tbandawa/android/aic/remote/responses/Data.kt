@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Artwork(
+data class Data(
     @SerialName("id") var id: Int?,
     @SerialName("api_model") var apiModel: String?,
     @SerialName("api_link") var apiLink: String?,

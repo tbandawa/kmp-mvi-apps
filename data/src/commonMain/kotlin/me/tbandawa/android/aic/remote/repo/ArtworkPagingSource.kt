@@ -4,10 +4,13 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import me.tbandawa.android.aic.core.ArtworksResults
 import me.tbandawa.android.aic.remote.api.AicApi
-import me.tbandawa.android.aic.remote.responses.Artwork
+import me.tbandawa.android.aic.remote.mapper.ArtworkMapper
+import me.tbandawa.android.aic.remote.responses.Data
+import me.tbandawa.kmm.aic.domain.models.Artwork
 
 class ArtworkPagingSource(
-    private val api: AicApi
+    private val api: AicApi,
+    private val artworkMapper: ArtworkMapper
 ): PagingSource<Int, Artwork>() {
 
     companion object {
@@ -19,7 +22,26 @@ class ArtworkPagingSource(
         return when (val result = handleApiCall { api.getArtworks(position) }) {
             is ArtworksResults.Success -> {
                 LoadResult.Page(
-                    data = result.data.data,
+                    data = result.data.data.map {
+                        Artwork(
+                            it.id,
+                            it.title,
+                            it.mainReferenceNumber,
+                            it.dateDisplay,
+                            it.artistDisplay,
+                            it.placeOfOrigin,
+                            it.artDescription,
+                            it.mediumDisplay,
+                            it.inscriptions,
+                            it.creditLine,
+                            it.catalogueDisplay,
+                            it.publicationHistory,
+                            it.exhibitionHistory,
+                            it.provenanceText,
+                            it.artistTitle,
+                            it.imageId
+                        )
+                    },
                     prevKey = if (position == STARTING_PAGE_INDEX) null else position - 1,
                     nextKey = if (result.data.data.isEmpty()) null else position + 1
                 )

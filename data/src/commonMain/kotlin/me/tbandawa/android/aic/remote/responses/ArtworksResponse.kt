@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ArtworksResponse(
     @SerialName("pagination") val pagination : Pagination,
-    @SerialName("data") var data: ArrayList<Artwork>,
+    @SerialName("data") var data: ArrayList<Data>,
     @SerialName("info") var info: Info,
     @SerialName("config") var config: Config
 )

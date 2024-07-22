@@ -1,5 +1,8 @@
-package me.tbandawa.kmm.aic.domain.mapper
+package me.tbandawa.android.aic.domain.mapper
 
-interface ResponseMapper<I, O>  {
+import me.tbandawa.android.aic.domain.models.Artworks
+
+interface ResponseMapper<I, L, O, P>  {
     fun mapToModel(entity: I): O
+    fun mapToModelList(entity: L): P
 }
