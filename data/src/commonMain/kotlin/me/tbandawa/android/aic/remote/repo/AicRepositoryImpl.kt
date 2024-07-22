@@ -11,36 +11,37 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import me.tbandawa.android.aic.lifecycle.ArtworksResults
+import me.tbandawa.android.aic.core.ArtworksResults
+import me.tbandawa.android.aic.domain.models.Artwork
+import me.tbandawa.android.aic.domain.repository.AicRepository
 import me.tbandawa.android.aic.remote.api.AicApi
-import me.tbandawa.android.aic.remote.responses.Artwork
-import me.tbandawa.android.aic.remote.responses.ArtworkResponse
-import me.tbandawa.android.aic.remote.responses.ArtworksResponse
+import me.tbandawa.android.aic.remote.mapper.ArtworkMapper
 import me.tbandawa.android.aic.remote.responses.ErrorResponse
 
 class AicRepositoryImpl(
     private val api: AicApi,
-    private val coroutineDispatcher: CoroutineDispatcher
+    private val coroutineDispatcher: CoroutineDispatcher,
+    private val artworkMapper: ArtworkMapper
 ): AicRepository {
 
     override fun getArtWorks(): Flow<PagingData<Artwork>> {
         return Pager(
             config = PagingConfig(pageSize = 10, prefetchDistance = 2),
-            pagingSourceFactory = { ArtworkPagingSource(api) }
+            pagingSourceFactory = { ArtworkPagingSource(api, artworkMapper) }
         ).flow.flowOn(coroutineDispatcher)
     }
 
-    override suspend fun getArtworks(page: Int): Flow<ArtworksResults<ArtworksResponse>> = flow {
+    override suspend fun getArtworks(page: Int): Flow<ArtworksResults<List<Artwork>>> = flow {
         emit(ArtworksResults.Loading)
         emit(handleApiCall {
-            api.getArtworks(page)
+            artworkMapper.mapResponseToModels(api.getArtworks(page))
         })
     }.flowOn(coroutineDispatcher)
 
-    override suspend fun getArtwork(id: Int): Flow<ArtworksResults<ArtworkResponse>> = flow {
+    override suspend fun getArtwork(id: Int): Flow<ArtworksResults<Artwork>> = flow {
         emit(ArtworksResults.Loading)
         emit(handleApiCall {
-            api.getArtwork(id)
+            artworkMapper.mapResponseToModel(api.getArtwork(id))
         })
     }.flowOn(coroutineDispatcher)
 }
@@ -60,6 +61,6 @@ suspend fun <T> handleApiCall(
     } catch (e: IOException) {
         ArtworksResults.Error(ErrorResponse(500, "Connection Error", "Server unreachable. Please check your internet connection and try again"))
     } catch (e: Exception) {
-        ArtworksResults.Error(ErrorResponse(500, "Error Occurred", "Unexpected error occured. Try again"))
+        ArtworksResults.Error(ErrorResponse(500, "Error Occurred", "Unexpected error occurred. Try again"))
     }
 }

@@ -1,17 +1,22 @@
-package me.tbandawa.android.aic.lifecycle
+package me.tbandawa.android.aic.viewmodels
 
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import me.tbandawa.android.aic.remote.repo.AicRepository
-import me.tbandawa.android.aic.remote.responses.ArtworkResponse
+import me.tbandawa.android.aic.core.ArtworksEffect
+import me.tbandawa.android.aic.core.ArtworksIntent
+import me.tbandawa.android.aic.core.ArtworksState
+import me.tbandawa.android.aic.core.reduce
+import me.tbandawa.android.aic.domain.base.BaseViewModel
+import me.tbandawa.android.aic.domain.repository.AicRepository
+import me.tbandawa.android.aic.domain.models.Artwork
 
 class ArtworkViewModel(
     private val repository: AicRepository
-): BaseViewModel<ArtworksState<ArtworkResponse>, ArtworksIntent, ArtworksEffect>() {
+): BaseViewModel<ArtworksState<Artwork>, ArtworksIntent, ArtworksEffect>() {
 
-    override fun createInitialState(): ArtworksState<ArtworkResponse> = ArtworksState.Idle
+    override fun createInitialState(): ArtworksState<Artwork> = ArtworksState.Idle
 
     override fun handleIntent(intent: ArtworksIntent) {
         when (intent) {
@@ -31,7 +36,7 @@ class ArtworkViewModel(
         }
     }
 
-    override fun observeResource(provideResourceState: (ArtworksState<ArtworkResponse>) -> Unit) {
+    override fun observeResource(provideResourceState: (ArtworksState<Artwork>) -> Unit) {
         _state.onEach {
             provideResourceState.invoke(it)
         }.launchIn(viewModelScope)

@@ -1,18 +1,23 @@
-package me.tbandawa.android.aic.lifecycle
+package me.tbandawa.android.aic.viewmodels
 
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import me.tbandawa.android.aic.remote.repo.AicRepository
-import me.tbandawa.android.aic.remote.responses.ArtworksResponse
+import me.tbandawa.android.aic.core.ArtworksEffect
+import me.tbandawa.android.aic.core.ArtworksIntent
+import me.tbandawa.android.aic.core.ArtworksState
+import me.tbandawa.android.aic.core.reduce
+import me.tbandawa.android.aic.domain.base.BaseViewModel
+import me.tbandawa.android.aic.domain.models.Artwork
+import me.tbandawa.android.aic.domain.repository.AicRepository
 
 class ArtworksViewModel(
     private val repository: AicRepository
-): BaseViewModel<ArtworksState<ArtworksResponse>, ArtworksIntent, ArtworksEffect>() {
+): BaseViewModel<ArtworksState<List<Artwork>>, ArtworksIntent, ArtworksEffect>() {
 
-    override fun createInitialState(): ArtworksState<ArtworksResponse> = ArtworksState.Idle
+    override fun createInitialState(): ArtworksState<List<Artwork>> = ArtworksState.Idle
 
     val pagedArtworks = repository
         .getArtWorks()
@@ -36,7 +41,7 @@ class ArtworksViewModel(
         }
     }
 
-    override fun observeResource(provideResourceState: (ArtworksState<ArtworksResponse>) -> Unit) {
+    override fun observeResource(provideResourceState: (ArtworksState<List<Artwork>>) -> Unit) {
         _state.onEach {
             provideResourceState.invoke(it)
         }.launchIn(viewModelScope)

@@ -32,7 +32,7 @@ import me.tbandawa.android.aic.android.ui.composables.LoadingData
 import me.tbandawa.android.aic.android.ui.composables.LoadingDataError
 import me.tbandawa.android.aic.android.ui.composables.LoadingMore
 import me.tbandawa.android.aic.android.ui.composables.LoadingMoreError
-import me.tbandawa.android.aic.remote.responses.Artwork
+import me.tbandawa.android.aic.domain.models.Artwork
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)

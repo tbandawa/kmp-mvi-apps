@@ -16,10 +16,10 @@ struct RetryContent: View {
     var body: some View {
         VStack {
             Text(error)
-                .font(.system(size: 16, weight: .regular, design: .rounded))
+                .font(.system(size: 14, weight: .regular, design: .rounded))
                 .padding(.horizontal, 10)
             Text("Retry")
-                .font(.system(size: 16, weight: .regular, design: .rounded))
+                .font(.system(size: 14, weight: .regular, design: .rounded))
                 .padding(.top, 2)
                 .underline()
                 .onTapGesture {
