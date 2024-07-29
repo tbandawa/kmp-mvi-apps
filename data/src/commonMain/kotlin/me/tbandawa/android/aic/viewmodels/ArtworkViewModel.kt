@@ -31,8 +31,8 @@ class ArtworkViewModel(
     }
 
     private suspend fun getArtWork(id: Int) {
-        repository.getArtwork(id = id).collect { state ->
-            _state.value = state.reduce()
+        repository.getArtwork(id = id).collect { results ->
+            _state.value = results.reduce()
         }
     }
 
