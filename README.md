@@ -19,7 +19,7 @@ User performs an action which is an <b>Intent</b> -> the intent request for data
 
 #### Libraries and Tools
 * [Kotlin](https://kotlinlang.org/)
-* Android Architecture Components (Jetpack Compose, Navigation Component, ConstraintLayout)
+* Android Architecture Components (Jetpack Compose, Navigation Component)
 * SwiftUI
 * KMP
 * [DataStore](https://developer.android.com/topic/libraries/architecture/datastore) preferences local storage
