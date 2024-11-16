@@ -5,9 +5,6 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import me.tbandawa.kmm.aic.domain.base.Effect
-import me.tbandawa.kmm.aic.domain.base.Intent
-import me.tbandawa.kmm.aic.domain.base.State
 
 abstract class BaseViewModel<S: State, I: Intent, E: Effect>: ViewModel() {
 
