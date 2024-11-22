@@ -18,6 +18,7 @@ timber = "4.7.1"
 coil = "2.5.0"
 paging-common = "3.3.0"
 jetbrainsKotlinJvm = "2.0.0"
+lifecycleRuntimeComposeAndroid = "2.8.7"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -46,6 +47,7 @@ koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 timber-debug = { module = "com.jakewharton.timber:timber", version.ref = "timber"}
+androidx-lifecycle-runtime-compose-android = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose-android", version.ref = "lifecycleRuntimeComposeAndroid" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
