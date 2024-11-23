@@ -2,12 +2,14 @@ package me.tbandawa.android.aic.android.ui.navigation
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -49,6 +51,7 @@ fun NavGraph() {
             .fillMaxSize()
     ) {
 
+        // Navigation host
         NavHost(
             modifier = Modifier
                 .weight(1f),
@@ -83,25 +86,31 @@ fun NavGraph() {
             }
         }
 
+        // Network availability banner
         Row(
             modifier = Modifier
                 .background(Color.DarkGray)
                 .animateContentSize()
-                .height(if (!connectivityManager.isNetworkAvailable.value) 45.dp else 0.dp)
+                .height(
+                    if (!connectivityManager.isNetworkAvailable.value)
+                        30.dp
+                    else
+                        0.dp
+                )
                 .fillMaxWidth()
                 .height(45.dp)
-                .padding(horizontal = 16.dp),
-            verticalAlignment = Alignment.CenterVertically
+                .padding(horizontal = 8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
         ) {
             Text(
                 text = "No Internet Connection",
                 color = Color.White,
-                fontSize = 14.sp,
+                fontSize = 10.sp,
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .wrapContentSize()
             )
         }
-
     }
 
 }
