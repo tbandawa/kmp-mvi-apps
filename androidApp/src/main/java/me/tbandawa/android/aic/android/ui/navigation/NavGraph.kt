@@ -12,7 +12,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,6 +30,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import kotlinx.coroutines.delay
 import me.tbandawa.android.aic.android.ui.screens.ArtworkScreen
 import me.tbandawa.android.aic.android.ui.screens.ArtworksScreen
 import me.tbandawa.android.aic.android.util.ConnectivityManager
@@ -35,14 +41,26 @@ import org.koin.androidx.compose.inject
 
 @Composable
 fun NavGraph() {
-    val navController = rememberNavController()
 
+    val navController = rememberNavController()
     val connectivityManager: ConnectivityManager by inject()
+    var isNetworkBanner by remember { mutableStateOf(false) }
 
     LifecycleStartEffect(Unit) {
         connectivityManager.registerConnectionObserver(this)
         onStopOrDispose {
             connectivityManager.unregisterConnectionObserver(this)
+        }
+    }
+
+    connectivityManager.isNetworkAvailable.value.also {
+        if (it) {
+            LaunchedEffect(Unit) {
+                delay(3000)
+                isNetworkBanner = false
+            }
+        } else {
+            isNetworkBanner = true
         }
     }
 
@@ -89,22 +107,16 @@ fun NavGraph() {
         // Network availability banner
         Row(
             modifier = Modifier
-                .background(Color.DarkGray)
-                .animateContentSize()
-                .height(
-                    if (!connectivityManager.isNetworkAvailable.value)
-                        30.dp
-                    else
-                        0.dp
-                )
+                .background(if (!connectivityManager.isNetworkAvailable.value) Color.DarkGray else Color(0xff00cf7c))
                 .fillMaxWidth()
-                .height(45.dp)
+                .animateContentSize()
+                .height(if (isNetworkBanner) 25.dp else 0.dp)
                 .padding(horizontal = 8.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "No Internet Connection",
+                text = if (!connectivityManager.isNetworkAvailable.value) "No Internet Connection" else "Internet Connection Available",
                 color = Color.White,
                 fontSize = 10.sp,
                 modifier = Modifier
@@ -112,7 +124,6 @@ fun NavGraph() {
             )
         }
     }
-
 }
 
 fun NavController.navigateToArtwork(artworkId: Int) {

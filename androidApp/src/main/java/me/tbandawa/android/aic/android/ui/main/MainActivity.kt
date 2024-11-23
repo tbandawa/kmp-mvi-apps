@@ -9,16 +9,6 @@ import me.tbandawa.android.aic.android.ui.navigation.NavGraph
 
 class MainActivity : ComponentActivity() {
 
-    /*override fun onStart() {
-        super.onStart()
-        connectivityManager.registerConnectionObserver(this)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        connectivityManager.unregisterConnectionObserver(this)
-    }*/
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen()
