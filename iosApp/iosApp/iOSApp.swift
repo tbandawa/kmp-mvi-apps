@@ -6,6 +6,7 @@ struct iOSApp: App {
     
     @StateObject var artworksState = ArtworksState()
     @StateObject var artworkState = ArtworkState()
+    @StateObject var networkMonitor = NetworkMonitor()
     
     init() {
         DataModuleKt.doInitKoin()
@@ -16,6 +17,7 @@ struct iOSApp: App {
             ContentView()
                 .environmentObject(artworksState)
                 .environmentObject(artworkState)
+                .environmentObject(networkMonitor)
 		}
 	}
 }
