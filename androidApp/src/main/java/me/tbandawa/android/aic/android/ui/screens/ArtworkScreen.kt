@@ -121,7 +121,7 @@ fun ArtworkScreen(
                     }
                 }
                 is ArtworksState.Error -> {
-                    val error = (artworkState as ArtworksResults.Error<Any>).data as ErrorResponse
+                    val error = (artworkState as ArtworksState.Error<Any>).data as ErrorResponse
                     LoadingDataError(message = error.detail) {
                         handleIntent(ArtworksIntent.GetArtwork(id = artworkId))
                     }

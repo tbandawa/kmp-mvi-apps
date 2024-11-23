@@ -1,6 +1,6 @@
 package me.tbandawa.android.aic.core
 
-import me.tbandawa.kmm.aic.domain.base.Intent
+import me.tbandawa.android.aic.domain.base.Intent
 
 sealed class ArtworksIntent : Intent {
     data class GetArtworks(val page: Int): ArtworksIntent()

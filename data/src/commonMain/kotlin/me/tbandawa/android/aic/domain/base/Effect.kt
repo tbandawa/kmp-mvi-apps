@@ -1,3 +1,3 @@
-package me.tbandawa.kmm.aic.domain.base
+package me.tbandawa.android.aic.domain.base
 
 interface Effect
