@@ -14,9 +14,10 @@ struct ContentView: View {
             if isNetworkBanner {
                 VStack(alignment: .center) {
                     Text(networkMonitor.isConnected ? "Internet Connection Available" : "No Internet Connection")
-                        .frame(maxWidth: .infinity, idealHeight: 10, alignment: .center)
+                        .frame(maxWidth: .infinity, alignment: .center)
                         .padding(.top, 10)
                         .font(.system(size: 12, design: .rounded))
+                        .fontWeight(.medium)
                 }
                 .background(networkMonitor.isConnected ? Color.green : Color.gray)
             }
@@ -36,7 +37,7 @@ struct ContentView: View {
     
     private func delayHidebanner() async {
         // Delay of 7.5 seconds (1 second = 1_000_000_000 nanoseconds)
-        try? await Task.sleep(nanoseconds: 3_000_000_000)
+        try? await Task.sleep(nanoseconds: 2_000_000_000)
         withAnimation {
             isNetworkBanner = false
         }

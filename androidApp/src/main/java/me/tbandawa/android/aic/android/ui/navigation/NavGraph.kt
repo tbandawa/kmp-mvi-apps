@@ -57,7 +57,7 @@ fun NavGraph() {
     connectivityManager.isNetworkAvailable.value.also {
         if (it) {
             LaunchedEffect(Unit) {
-                delay(3000)
+                delay(2000)
                 isNetworkBanner = false
             }
         } else {
