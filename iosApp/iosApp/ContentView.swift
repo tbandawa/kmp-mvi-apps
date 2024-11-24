@@ -2,44 +2,42 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State var isNetworkBanner = false
+    @State private var isNetworkBanner = false
     
     @EnvironmentObject var networkMonitor: NetworkMonitor
     
     var body: some View {
-        VStack {
+        ZStack(alignment: .bottom) {
             NavigationView {
                 ArtworksScreen()
             }
             if isNetworkBanner {
-                VStack(alignment: .center) {
-                    Text(networkMonitor.isConnected ? "Internet Connection Available" : "No Internet Connection")
-                        .frame(maxWidth: .infinity, alignment: .center)
-                        .padding(.top, 10)
-                        .font(.system(size: 12, design: .rounded))
-                        .fontWeight(.medium)
-                }
-                .background(networkMonitor.isConnected ? Color.green : Color.gray)
+                Text(networkMonitor.isConnected ? "Internet Connection Available" : "No Internet Connection")
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .padding(.top, 10)
+                    .padding(.bottom, 10)
+                    .font(.system(size: 12, design: .rounded))
+                    .fontWeight(.medium)
+                    .background(networkMonitor.isConnected ? Color.green : Color.gray)
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
+                    .zIndex(2)
             }
+                
         }
+        .animation(.default, value: isNetworkBanner)
         .onChange(of: networkMonitor.isConnected) { value in
             if value {
                 Task {
                     await delayHidebanner()
                 }
             } else {
-                withAnimation {
-                    isNetworkBanner = true
-                }
+                isNetworkBanner = true
             }
         }
 	}
     
     private func delayHidebanner() async {
-        // Delay of 7.5 seconds (1 second = 1_000_000_000 nanoseconds)
         try? await Task.sleep(nanoseconds: 2_000_000_000)
-        withAnimation {
-            isNetworkBanner = false
-        }
+        isNetworkBanner = false
     }
 }
