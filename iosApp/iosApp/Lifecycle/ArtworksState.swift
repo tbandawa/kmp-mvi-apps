@@ -47,4 +47,10 @@ class ArtworksState: ObservableObject {
     func getArtworks() {
         viewModel.handleIntent(intent: ArtworksIntent.GetArtworks(page: currentPage))
     }
+    
+    func refreshArtworks() {
+        currentPage = 1
+        items?.removeAll()
+        getArtworks()
+    }
 }

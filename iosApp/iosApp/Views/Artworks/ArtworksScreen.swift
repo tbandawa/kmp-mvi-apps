@@ -36,6 +36,11 @@ struct ArtworksScreen: View {
                                 )
                             }
                          }
+                        .refreshable {
+                            if (!artworksState.loading) {
+                                artworksState.refreshArtworks()
+                            }
+                        }
                     }
                     if artworksState.loading {
                         if (artworksState.items?.count == 0) {

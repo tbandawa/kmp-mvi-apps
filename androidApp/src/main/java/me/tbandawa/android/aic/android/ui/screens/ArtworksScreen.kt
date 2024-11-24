@@ -59,8 +59,7 @@ fun ArtworksScreen(
 
         Scaffold(
             modifier = Modifier
-                .nestedScroll(scrollBehavior.nestedScrollConnection)
-                .pullRefresh(pullRefreshState),
+                .nestedScroll(scrollBehavior.nestedScrollConnection),
             containerColor = Color.White,
             topBar = {
                 ArtworksToolbar(title = "Art Institute of Chicago", scrollBehavior = scrollBehavior)
