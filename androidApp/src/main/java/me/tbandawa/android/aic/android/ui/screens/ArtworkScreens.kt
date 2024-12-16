@@ -47,6 +47,7 @@ import me.tbandawa.android.aic.remote.responses.ErrorResponse
 import me.tbandawa.android.aic.viewmodels.ArtworkViewModel
 import me.tbandawa.android.aic.viewmodels.ArtworksViewModel
 
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
 class ArtworkScreens(
     private val artworksViewModel: ArtworksViewModel,
     private val artworkViewModel: ArtworkViewModel
@@ -62,7 +63,6 @@ class ArtworkScreens(
     @Composable
     fun getArtworkState(): ArtworksState<Artwork> = artworkViewModel.state.collectAsState().value
 
-    @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
     @Composable
     fun ArtworksScreen(
         pagingItems: LazyPagingItems<Artwork>,
@@ -145,7 +145,6 @@ class ArtworkScreens(
         }
     }
 
-    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun ArtworkScreen(
         artworkId: Int,

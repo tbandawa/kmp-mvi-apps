@@ -31,13 +31,13 @@ import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.delay
 import me.tbandawa.android.aic.android.ui.screens.ArtworkScreens
 import me.tbandawa.android.aic.android.util.ConnectivityManager
-import org.koin.androidx.compose.inject
+import org.koin.java.KoinJavaComponent.getKoin
 
 @Composable
 fun NavGraph() {
 
-    val connectivityManager: ConnectivityManager by inject()
-    val screens : ArtworkScreens by inject()
+    val connectivityManager: ConnectivityManager = getKoin().get()
+    val screens : ArtworkScreens = getKoin().get()
 
     val navController = rememberNavController()
     var isNetworkBanner by remember { mutableStateOf(false) }
