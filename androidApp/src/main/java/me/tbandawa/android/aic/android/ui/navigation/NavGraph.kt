@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,22 +28,18 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.paging.compose.LazyPagingItems
-import androidx.paging.compose.collectAsLazyPagingItems
 import kotlinx.coroutines.delay
-import me.tbandawa.android.aic.android.ui.screens.ArtworkScreen
-import me.tbandawa.android.aic.android.ui.screens.ArtworksScreen
+import me.tbandawa.android.aic.android.ui.screens.ArtworkScreens
 import me.tbandawa.android.aic.android.util.ConnectivityManager
-import me.tbandawa.android.aic.domain.models.Artwork
-import me.tbandawa.android.aic.viewmodels.ArtworkViewModel
-import me.tbandawa.android.aic.viewmodels.ArtworksViewModel
-import org.koin.androidx.compose.inject
+import org.koin.java.KoinJavaComponent.getKoin
 
 @Composable
 fun NavGraph() {
 
+    val connectivityManager: ConnectivityManager = getKoin().get()
+    val screens : ArtworkScreens = getKoin().get()
+
     val navController = rememberNavController()
-    val connectivityManager: ConnectivityManager by inject()
     var isNetworkBanner by remember { mutableStateOf(false) }
 
     LifecycleStartEffect(Unit) {
@@ -78,25 +73,22 @@ fun NavGraph() {
             startDestination = "artworks"
         ) {
             composable(route = "artworks") {
-                val viewModel : ArtworksViewModel by inject()
-                val pagingItems: LazyPagingItems<Artwork> = viewModel.pagedArtworks.collectAsLazyPagingItems()
-                ArtworksScreen(
-                    pagingItems = pagingItems
-                ) {
-                    navController.navigateToArtwork(it)
-                }
+                screens.ArtworksScreen(
+                    pagingItems = screens.getPagingItems(),
+                    navigateToArtwork = { artworkId ->
+                        navController.navigateToArtwork(artworkId)
+                    }
+                )
             }
             composable(route = "artwork/{artworkId}") { backStackEntry ->
                 val artworkId = requireNotNull(backStackEntry.arguments?.getString("artworkId")) {
                     "Artwork Identifier in missing"
                 }
-                val viewModel : ArtworkViewModel by inject()
-                val artworkState = viewModel.state.collectAsState().value
-                ArtworkScreen(
+                screens.ArtworkScreen(
                     artworkId = artworkId.toInt(),
-                    artworkState = artworkState,
+                    artworkState = screens.getArtworkState(),
                     handleIntent = { artworksIntent ->
-                        viewModel.handleIntent(artworksIntent)
+                        screens.handleArtworkIntent(artworksIntent)
                     },
                     navigateBack = {
                         navController.navigateUp()
