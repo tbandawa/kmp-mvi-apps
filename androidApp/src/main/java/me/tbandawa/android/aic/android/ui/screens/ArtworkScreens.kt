@@ -28,6 +28,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import me.tbandawa.android.aic.android.ui.composables.ArtworkDetails
 import me.tbandawa.android.aic.android.ui.composables.ArtworkHeader
@@ -55,12 +56,19 @@ class ArtworkScreens(
         artworkViewModel.handleIntent(intent)
     }
 
+    @Composable
+    fun getPagingItems(): LazyPagingItems<Artwork> = artworksViewModel.pagedArtworks.collectAsLazyPagingItems()
+
+    @Composable
+    fun getArtworkState(): ArtworksState<Artwork> = artworkViewModel.state.collectAsState().value
+
     @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
     @Composable
     fun ArtworksScreen(
+        pagingItems: LazyPagingItems<Artwork>,
         navigateToArtwork: (artworkId: Int) -> Unit
     ) {
-        val pagingItems = artworksViewModel.pagedArtworks.collectAsLazyPagingItems()
+
         Surface(
             modifier = Modifier.fillMaxSize()
         ) {
@@ -141,11 +149,10 @@ class ArtworkScreens(
     @Composable
     fun ArtworkScreen(
         artworkId: Int,
+        artworkState: ArtworksState<Artwork>,
         handleIntent: (ArtworksIntent) -> Unit,
         navigateBack: () -> Unit
     ) {
-
-         val artworkState = artworkViewModel.state.collectAsState().value
 
         LaunchedEffect(key1 = true) {
             handleIntent(ArtworksIntent.GetArtwork(id = artworkId))

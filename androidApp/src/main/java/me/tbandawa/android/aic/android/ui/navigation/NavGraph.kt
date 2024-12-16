@@ -73,7 +73,12 @@ fun NavGraph() {
             startDestination = "artworks"
         ) {
             composable(route = "artworks") {
-                screens.ArtworksScreen { navController.navigateToArtwork(it) }
+                screens.ArtworksScreen(
+                    pagingItems = screens.getPagingItems(),
+                    navigateToArtwork = { artworkId ->
+                        navController.navigateToArtwork(artworkId)
+                    }
+                )
             }
             composable(route = "artwork/{artworkId}") { backStackEntry ->
                 val artworkId = requireNotNull(backStackEntry.arguments?.getString("artworkId")) {
@@ -81,6 +86,7 @@ fun NavGraph() {
                 }
                 screens.ArtworkScreen(
                     artworkId = artworkId.toInt(),
+                    artworkState = screens.getArtworkState(),
                     handleIntent = { artworksIntent ->
                         screens.handleArtworkIntent(artworksIntent)
                     },
