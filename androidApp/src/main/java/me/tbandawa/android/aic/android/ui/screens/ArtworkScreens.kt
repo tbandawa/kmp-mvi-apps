@@ -51,8 +51,8 @@ class ArtworkScreens(
     private val artworkViewModel: ArtworkViewModel
 ) {
 
-    val handleArtworkIntent: (ArtworksIntent) -> Unit = {
-        artworksViewModel.handleIntent(it)
+    val handleArtworkIntent: (ArtworksIntent) -> Unit = { intent ->
+        artworkViewModel.handleIntent(intent)
     }
 
     @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
@@ -141,12 +141,14 @@ class ArtworkScreens(
     @Composable
     fun ArtworkScreen(
         artworkId: Int,
+        handleIntent: (ArtworksIntent) -> Unit,
         navigateBack: () -> Unit
     ) {
-        val artworkState = artworkViewModel.state.collectAsState().value
 
-        LaunchedEffect(true) {
-            handleArtworkIntent(ArtworksIntent.GetArtwork(id = artworkId))
+         val artworkState = artworkViewModel.state.collectAsState().value
+
+        LaunchedEffect(key1 = true) {
+            handleIntent(ArtworksIntent.GetArtwork(id = artworkId))
         }
 
         Surface(
@@ -228,7 +230,7 @@ class ArtworkScreens(
                     is ArtworksState.Error -> {
                         val error = (artworkState as ArtworksState.Error<Any>).data as ErrorResponse
                         LoadingDataError(message = error.detail) {
-                            handleArtworkIntent(ArtworksIntent.GetArtwork(id = artworkId))
+                            handleIntent(ArtworksIntent.GetArtwork(id = artworkId))
                         }
                     }
                 }
