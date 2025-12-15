@@ -49,14 +49,16 @@ fun NavGraph() {
         }
     }
 
-    connectivityManager.isNetworkAvailable.value.also {
-        if (it) {
+    connectivityManager.isNetworkAvailable.value.also { isConnected ->
+        if (isConnected) {
             LaunchedEffect(Unit) {
                 delay(2000)
+                isNetworkBanner = isConnected
+                delay(5000)
                 isNetworkBanner = false
             }
         } else {
-            isNetworkBanner = true
+            isNetworkBanner = false
         }
     }
 
