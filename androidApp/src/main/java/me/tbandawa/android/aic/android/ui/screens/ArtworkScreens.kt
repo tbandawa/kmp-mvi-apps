@@ -78,7 +78,7 @@ class ArtworkScreens(
             )
 
             val pullRefreshState = rememberPullRefreshState(
-                refreshing = pagingItems.loadState.refresh is LoadState.Loading && pagingItems.itemSnapshotList.size > 0,
+                refreshing = pagingItems.loadState.refresh is LoadState.Loading && pagingItems.itemSnapshotList.isNotEmpty(),
                 onRefresh = {
                     pagingItems.refresh()
                 }

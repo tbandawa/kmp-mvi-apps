@@ -27,9 +27,11 @@ import androidx.lifecycle.compose.LifecycleStartEffect
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.delay
 import me.tbandawa.android.aic.android.ui.screens.ArtworkScreens
+import me.tbandawa.android.aic.android.util.ConnectionState
 import me.tbandawa.android.aic.android.util.ConnectivityManager
 import org.koin.java.KoinJavaComponent.getKoin
 
@@ -49,16 +51,23 @@ fun NavGraph() {
         }
     }
 
-    connectivityManager.isNetworkAvailable.value.also { isConnected ->
-        if (isConnected) {
-            LaunchedEffect(Unit) {
-                delay(2000)
-                isNetworkBanner = isConnected
-                delay(5000)
-                isNetworkBanner = false
+    connectivityManager.isNetworkAvailable.value.also { connection ->
+        when(connection) {
+            is ConnectionState.Connected -> {
+                if (connection.checkCount > 1) {
+                    LaunchedEffect(Unit) {
+                        isNetworkBanner = true
+                        delay(5000)
+                        isNetworkBanner = false
+                    }
+                }
             }
-        } else {
-            isNetworkBanner = false
+            is ConnectionState.Disconnected -> {
+                LaunchedEffect(Unit) {
+                    isNetworkBanner = true
+                }
+            }
+            is ConnectionState.Idle -> { }
         }
     }
 
@@ -102,7 +111,7 @@ fun NavGraph() {
         // Network availability banner
         Row(
             modifier = Modifier
-                .background(if (!connectivityManager.isNetworkAvailable.value) Color.DarkGray else Color(0xff00cf7c))
+                .background(if (connectivityManager.isNetworkAvailable.value is ConnectionState.Disconnected) Color.DarkGray else Color(0xff00cf7c))
                 .fillMaxWidth()
                 .animateContentSize()
                 .height(if (isNetworkBanner) 25.dp else 0.dp)
@@ -111,7 +120,7 @@ fun NavGraph() {
             horizontalArrangement = Arrangement.Center
         ) {
             Text(
-                text = if (!connectivityManager.isNetworkAvailable.value) "No Internet Connection" else "Internet Connection Available",
+                text = if (connectivityManager.isNetworkAvailable.value is ConnectionState.Disconnected) "No Internet Connection" else "Internet Connection Available",
                 color = Color.White,
                 fontSize = 10.sp,
                 fontWeight = FontWeight.Medium,
@@ -126,4 +135,10 @@ fun NavController.navigateToArtwork(artworkId: Int) {
     if (this.currentDestination?.route !== "artwork/$artworkId") {
         navigate(route = "artwork/$artworkId")
     }
+}
+
+@Composable
+fun isAtStartDestination(navController: NavController, startDestinationRoute: String): Boolean {
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    return navBackStackEntry?.destination?.route == startDestinationRoute
 }

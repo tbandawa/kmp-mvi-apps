@@ -10,12 +10,12 @@ class ConnectivityManager (
     private val connectionLiveData = ConnectionLiveData(application)
 
     // observe this in ui
-    val isNetworkAvailable = mutableStateOf(true)
+    val isNetworkAvailable = mutableStateOf<ConnectionState>(ConnectionState.Idle)
 
     fun registerConnectionObserver(lifecycleOwner: LifecycleOwner){
-        connectionLiveData.observe(lifecycleOwner, { isConnected ->
+        connectionLiveData.observe(lifecycleOwner) { isConnected ->
             isConnected?.let { isNetworkAvailable.value = it }
-        })
+        }
     }
 
     fun unregisterConnectionObserver(lifecycleOwner: LifecycleOwner){

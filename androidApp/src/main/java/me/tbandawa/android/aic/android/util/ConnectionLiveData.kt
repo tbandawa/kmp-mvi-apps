@@ -11,16 +11,24 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import timber.log.Timber
+import me.tbandawa.android.aic.domain.base.State
 
-class ConnectionLiveData(context: Context) : LiveData<Boolean>() {
+class ConnectionLiveData(context: Context) : LiveData<ConnectionState>(ConnectionState.Idle) {
+
+    private var checkCounter = 0
     
     private lateinit var networkCallback: ConnectivityManager.NetworkCallback
     private val cm = context.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
     private val validNetworks: MutableSet<Network> = HashSet()
 
     private fun checkValidNetworks() {
-        postValue(validNetworks.size > 0)
+        checkCounter ++
+        if (validNetworks.isNotEmpty()) {
+            postValue(ConnectionState.Connected(checkCounter))
+        }
+        if (validNetworks.isEmpty()){
+            postValue(ConnectionState.Disconnected(checkCounter))
+        }
     }
 
     override fun onActive() {
@@ -42,17 +50,14 @@ class ConnectionLiveData(context: Context) : LiveData<Boolean>() {
           Source: https://developer.android.com/reference/android/net/ConnectivityManager.NetworkCallback#onAvailable(android.net.Network)
          */
         override fun onAvailable(network: Network) {
-            Timber.d("onAvailable: $network")
             val networkCapabilities = cm.getNetworkCapabilities(network)
             val hasInternetCapability = networkCapabilities?.hasCapability(NET_CAPABILITY_INTERNET)
-            Timber.d("onAvailable: ${network}, $hasInternetCapability")
             if (hasInternetCapability == true) {
                 // check if this network actually has internet
                 CoroutineScope(Dispatchers.IO).launch {
                     val hasInternet = DoesNetworkHaveInternet.execute(network.socketFactory)
                     if(hasInternet){
                         withContext(Dispatchers.Main){
-                            Timber.d("onAvailable: adding network. $network")
                             validNetworks.add(network)
                             checkValidNetworks()
                         }
@@ -66,9 +71,14 @@ class ConnectionLiveData(context: Context) : LiveData<Boolean>() {
           Source: https://developer.android.com/reference/android/net/ConnectivityManager.NetworkCallback#onLost(android.net.Network)
          */
         override fun onLost(network: Network) {
-            Timber.d("onLost: $network")
             validNetworks.remove(network)
             checkValidNetworks()
         }
     }
+}
+
+sealed class ConnectionState: State {
+    data class Connected(val checkCount: Int): ConnectionState()
+    data class Disconnected(val checkCount: Int): ConnectionState()
+    data object Idle: ConnectionState()
 }
