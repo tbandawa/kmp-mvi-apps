@@ -188,7 +188,7 @@ class ArtworkScreens(
                         ) {
                             val artwork = (artworkState as ArtworksState.Data<*>).data as Artwork
                             ArtworkHeader(
-                                image = artwork.imageId!!,
+                                image = artwork.imageId ?: "",
                                 title = artwork.title!!,
                                 dateDisplay = artwork.dateDisplay,
                                 artistDisplay = artwork.artistDisplay,
